@@ -1,0 +1,109 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-08 07:45+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: core/models.py:35
+msgid "Image"
+msgstr "Hình ảnh"
+
+#: core/models.py:41 core/models.py:101
+msgid "Tags"
+msgstr "Từ khóa"
+
+#: core/models.py:47 core/models.py:79
+msgid "Modules"
+msgstr "Modules"
+
+#: core/models.py:53 core/models.py:134
+msgid "Medicine"
+msgstr "Dược liệu"
+
+#: core/models.py:60
+msgid "Position"
+msgstr "Vị trí"
+
+#: core/models.py:61
+#, fuzzy
+#| msgid "Additions"
+msgid "Positions"
+msgstr "Vị trí"
+
+#: core/models.py:70
+msgid "Banner"
+msgstr "Banner"
+
+#: core/models.py:71
+msgid "Banners"
+msgstr "Banners"
+
+#: core/models.py:78
+#, fuzzy
+#| msgid "Modules"
+msgid "Module"
+msgstr "Modules"
+
+#: core/models.py:91
+msgid "Category"
+msgstr "Chuyên mục"
+
+#: core/models.py:92
+msgid "Categories"
+msgstr "Chuyên mục"
+
+#: core/models.py:100
+#, fuzzy
+#| msgid "Tags"
+msgid "Tag"
+msgstr "Từ khóa"
+
+#: core/models.py:118
+msgid "Post"
+msgstr "Tin tức"
+
+#: core/models.py:119
+msgid "Posts"
+msgstr "Tin tức"
+
+#: core/models.py:135
+msgid "Medicines"
+msgstr "Dược liệu"
+
+#: core/models.py:151
+msgid "Disease"
+msgstr "Bệnh"
+
+#: core/models.py:152
+msgid "Diseases"
+msgstr "Bệnh"
+
+#: core/models.py:168
+msgid "Expert"
+msgstr "Chuyên gia"
+
+#: core/models.py:169
+msgid "Experts"
+msgstr "Chuyên gia"
+
+#: core/models.py:191
+msgid "Drug"
+msgstr ""
+
+#: core/models.py:192
+msgid "Drugs"
+msgstr "Bài thuốc"

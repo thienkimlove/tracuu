@@ -1,0 +1,13 @@
+{% extends "admin/base_site.html" %}
+{% load admin_urls %}
+{% block content %}
+    <p>{{ test }}</p>
+    <p>Link to Admin Index <a href="{% url 'admin:index' %}">Link to Admin Index</a></p>
+    <p>Link to Banner Add <a href="{% url 'admin:core_banner_add' %}">Link to Add Banner</a></p>
+    <p>Listing database objects</p>
+    <p>
+        {% for cat in categories %}
+           <span>{{ cat.name }} have parent {{ cat.parent }}</span>
+        {% endfor %}
+    </p>
+{% endblock %}
