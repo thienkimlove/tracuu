@@ -1,0 +1,48 @@
+{% extends 'frontend/base.html' %}
+{% load staticfiles i18n  thumbnail core_helper %}
+
+{% block title %}
+    {{ block.super }}
+    {{ disease.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-sub">
+        <header class="header-sub">
+            {% include 'frontend/common/header.html' %}
+            <div class="banner-header">
+                {% include 'frontend/common/search_form.html' %}
+            </div>
+        </header>
+        <div class="body">
+            <div class="block3">
+                <div class="steps">
+                    <h2 class="step1">TRA CỨU THEO BỆNH</h2>
+                    <span class="arrow"></span>
+                    <h3 class="step2">{{ disease.name }}</h3>
+                </div>
+                <div class="content">
+                    <article class="detailContent">
+                        {{ disease.content|safe|escape }}
+                    </article>
+                    <div class="relateMedicines">
+                        <h3 class="globalTitle">Những dược liệu hỗ trợ chữa {{ disease.name }}</h3>
+                        <div class="content">
+                            {% for medicine in  medicines %}
+                            <a href="{% url 'frontend:medicine_detail' medicine.slug %}" class="item item{{ forloop.counter }}" title="{{ medicine.name }}" style="background: url('{{ medicine.image.url }}') center center no-repeat;">
+
+                                {% thumbnail medicine.image "231x200" crop="center" as im %}
+                                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                {% endthumbnail %}
+
+                                <span class="tree-name">{{ medicine.name }}</span>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'frontend/common/footer.html' %}
+    </div>
+{% endblock %}

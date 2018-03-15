@@ -14,6 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -34,7 +35,10 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'dal',
+    'dal_select2',
     'filebrowser',
+    'django.contrib.admindocs',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,11 +47,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'frontend',
-    'logentry_admin',
     'jsoneditor',
     'django_select2',
     'import_export',
-    'meta',
+    'sorl.thumbnail',
+    'taggit',
+    'constance',
+    'constance.backends.database',
 ]
 
 MIDDLEWARE = [
@@ -59,42 +65,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-
-if DEBUG:
-    INTERNAL_IPS = ('127.0.0.1', 'localhost', '192.168.99.100')
-    MIDDLEWARE += (
-        'debug_toolbar.middleware.DebugToolbarMiddleware',
-    )
-
-    INSTALLED_APPS += (
-        'debug_toolbar',
-    )
-
-    DEBUG_TOOLBAR_PANELS = [
-        'debug_toolbar.panels.versions.VersionsPanel',
-        'debug_toolbar.panels.timer.TimerPanel',
-        'debug_toolbar.panels.settings.SettingsPanel',
-        'debug_toolbar.panels.headers.HeadersPanel',
-        'debug_toolbar.panels.request.RequestPanel',
-        'debug_toolbar.panels.sql.SQLPanel',
-        'debug_toolbar.panels.staticfiles.StaticFilesPanel',
-        'debug_toolbar.panels.templates.TemplatesPanel',
-        'debug_toolbar.panels.cache.CachePanel',
-        'debug_toolbar.panels.signals.SignalsPanel',
-        'debug_toolbar.panels.logging.LoggingPanel',
-        'debug_toolbar.panels.redirects.RedirectsPanel',
-    ]
-
-    DEBUG_TOOLBAR_CONFIG = {
-        'INTERCEPT_REDIRECTS': False,
-    }
-
-    def show_toolbar(request):
-        return True
-    DEBUG_TOOLBAR_CONFIG = {
-        "SHOW_TOOLBAR_CALLBACK" : show_toolbar,
-    }
 
 
 
@@ -111,6 +81,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'constance.context_processors.config',
             ],
         },
     },
@@ -174,12 +145,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-UPLOAD_URL = '/upload/'
+MEDIA_URL = '/files/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-UPLOAD_ROOT = os.path.join(BASE_DIR, "upload")
+MEDIA_ROOT = os.path.join(BASE_DIR, "files")
+
+DEFAULT_CHARSET='utf-8'
 
 
 EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
@@ -191,3 +162,34 @@ EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
 
 JSON_EDITOR_JS = 'https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.14.0/jsoneditor.js'
 JSON_EDITOR_CSS = 'https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.14.0/jsoneditor.css'
+
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+
+CONSTANCE_ADDITIONAL_FIELDS = {
+    'yes_no_null_select': ['django.forms.fields.ChoiceField', {
+        'widget': 'django.forms.Select',
+        'choices': ((None, "-----"), ("yes", "Yes"), ("no", "No"))
+    }],
+    'ck_editor': ['django.forms.fields.CharField', {
+        'widget': 'core.widgets.EditorTextArea',
+    }],
+
+    'image_field': ['django.forms.ImageField', {}]
+}
+
+CONSTANCE_CONFIG = {
+    #'MY_SELECT_KEY': ('yes', 'select yes or no', 'yes_no_null_select'),
+    'LOGO_IMAGE': ('default.png', _('Site logo'), 'image_field'),
+    'INDEX_TITLE': ('Trang chủ | Tra cứu dược liệu', _('Index title'), str),
+    'RECOMMEND_TITLE': ('Giới thiệu | Tra cứu dược liệu', _('Recommend title'), str),
+    'EXPERT_TITLE': ('Chuyên gia | Tra cứu dược liệu', _('Expert title'), str),
+    'RECOMMEND_CONTENT': ('', _('Recommend Content'), 'ck_editor'),
+    'EXPERT_CONTENT': ('', _('Expert Content'), 'ck_editor'),
+}
+
+CONSTANCE_CONFIG_FIELDSETS = {
+    'General Options': ('LOGO_IMAGE', 'INDEX_TITLE', ),
+    'RECOMMEND Options': ('RECOMMEND_CONTENT', 'RECOMMEND_TITLE', ),
+    'EXPERT Options': ('EXPERT_CONTENT', 'EXPERT_TITLE', ),
+    #'Theme Options': ('THEME',),
+}

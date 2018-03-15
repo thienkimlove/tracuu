@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-08 07:45+0000\n"
+"POT-Creation-Date: 2018-03-15 09:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,92 +18,107 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: core/models.py:35
+#: core/models.py:69
 msgid "Image"
 msgstr "Hình ảnh"
 
-#: core/models.py:41 core/models.py:101
-msgid "Tags"
-msgstr "Từ khóa"
+#: core/models.py:75
+msgid "Tên khoa học"
+msgstr ""
 
-#: core/models.py:47 core/models.py:79
-msgid "Modules"
-msgstr "Modules"
-
-#: core/models.py:53 core/models.py:134
-msgid "Medicine"
-msgstr "Dược liệu"
-
-#: core/models.py:60
-msgid "Position"
-msgstr "Vị trí"
-
-#: core/models.py:61
-#, fuzzy
-#| msgid "Additions"
-msgid "Positions"
-msgstr "Vị trí"
-
-#: core/models.py:70
-msgid "Banner"
-msgstr "Banner"
-
-#: core/models.py:71
-msgid "Banners"
-msgstr "Banners"
-
-#: core/models.py:78
-#, fuzzy
-#| msgid "Modules"
-msgid "Module"
-msgstr "Modules"
-
-#: core/models.py:91
+#: core/models.py:92
 msgid "Category"
 msgstr "Chuyên mục"
 
-#: core/models.py:92
+#: core/models.py:93
 msgid "Categories"
 msgstr "Chuyên mục"
 
-#: core/models.py:100
-#, fuzzy
-#| msgid "Tags"
-msgid "Tag"
-msgstr "Từ khóa"
-
-#: core/models.py:118
+#: core/models.py:108
 msgid "Post"
 msgstr "Tin tức"
 
-#: core/models.py:119
+#: core/models.py:109
 msgid "Posts"
 msgstr "Tin tức"
 
-#: core/models.py:135
-msgid "Medicines"
-msgstr "Dược liệu"
-
-#: core/models.py:151
+#: core/models.py:124
 msgid "Disease"
 msgstr "Bệnh"
 
-#: core/models.py:152
+#: core/models.py:125
 msgid "Diseases"
 msgstr "Bệnh"
 
-#: core/models.py:168
-msgid "Expert"
-msgstr "Chuyên gia"
+#: core/models.py:146
+msgid "Medicine"
+msgstr "Dược liệu"
 
-#: core/models.py:169
-msgid "Experts"
-msgstr "Chuyên gia"
+#: core/models.py:147
+msgid "Medicines"
+msgstr "Dược liệu"
+
+#: core/models.py:169 core/models.py:170
+#, fuzzy
+#| msgid "Medicine"
+msgid "Special"
+msgstr "Danh lục"
 
 #: core/models.py:191
 msgid "Drug"
-msgstr ""
+msgstr "Bài thuốc"
 
 #: core/models.py:192
 msgid "Drugs"
 msgstr "Bài thuốc"
+
+#: core/models.py:200
+msgid "Expert"
+msgstr "Chuyên gia"
+
+#: core/models.py:201
+msgid "Experts"
+msgstr "Chuyên gia"
+
+#: core/models.py:211
+msgid "Video"
+msgstr ""
+
+#: core/models.py:212
+msgid "Videos"
+msgstr ""
+
+#, fuzzy
+#~| msgid "Medicines"
+#~ msgid "Special Medicines"
+#~ msgstr "Danh lục"
+
+#~ msgid "Tags"
+#~ msgstr "Từ khóa"
+
+#~ msgid "Modules"
+#~ msgstr "Modules"
+
+#~ msgid "Position"
+#~ msgstr "Vị trí"
+
+#, fuzzy
+#~| msgid "Additions"
+#~ msgid "Positions"
+#~ msgstr "Vị trí"
+
+#~ msgid "Banner"
+#~ msgstr "Banner"
+
+#~ msgid "Banners"
+#~ msgstr "Banners"
+
+#, fuzzy
+#~| msgid "Modules"
+#~ msgid "Module"
+#~ msgstr "Modules"
+
+#, fuzzy
+#~| msgid "Tags"
+#~ msgid "Tag"
+#~ msgstr "Từ khóa"

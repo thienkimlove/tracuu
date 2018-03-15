@@ -1,0 +1,81 @@
+{% extends 'frontend/base.html' %}
+{% load staticfiles i18n %}
+
+{% block title %}
+    {{ block.super }}
+    TRA CỨU THEO DANH LỤC
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-sub">
+        <header class="header-sub">
+            {% include 'frontend/common/header.html' %}
+            <div class="banner-header">
+                {% include 'frontend/common/search_form.html' %}
+                <div class="search-medicine">
+                    <div class="left">
+                        <img src="{% static "frontend/images/avatar-search3.jpg" %}" alt="">
+                    </div>
+                    <div class="right">
+                        <div class="txt">TRA CỨU THEO DANH LỤC</div>
+                        <form id="search_special" action="{% url 'frontend:special_list' %}" class="form-medicine">
+                            <input type="text" name="q" placeholder="Tìm kiếm theo danh lục ..." value="{% if request.GET.q is not None %}{{ request.GET.q }}{% endif %}" >
+                            <button id="button_special"><img src="{% static "frontend/images/icon-search.jpg" %}" alt="" class="imgFull"></button>
+                        </form>
+                        <div class="txt-alphabet">
+                            {% for alphabet in alphabets %}
+                                <a href="{% url 'frontend:special_list' %}?q={{ alphabet| lower }}" title="{{ alphabet| lower }}" class="{% if request.GET.q == alphabet|lower %}active{% endif %}">{{ alphabet }}</a>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="body">
+            <div class="block2">
+                <div class="content">
+                    {% for medicine in medicines %}
+                        {% if medicine.image %}
+                            <a href="{% url 'frontend:special_detail' medicine.slug %}" class="item item{{ forloop.counter }}" title="{{ medicine.name }}" style="background: url('{{ medicine.image.url }}') center center no-repeat;">
+                                <img src="{{ medicine.image.url }}" alt="" class="">
+                                <span class="tree-name">{{ medicine.name }}</span>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% if medicines.has_other_pages %}
+                    <ul class="pagination">
+                        <li><a href="?page=1">Đầu</a></li>
+                        {% if medicines.has_previous %}
+                            <li><a href="?page={{ medicines.previous_page_number }}">&laquo;</a></li>
+                        {% endif %}
+
+                        {% for i in medicines.paginator.page_range %}
+                            {% if medicines.number == i %}
+                                <li>
+                                    <a class="current" href="javascript:void(0)">{{ i }}</a>
+                                </li>
+
+                            {% else %}
+                                {% if medicines.number|add:"5" > i and medicines.number|add:"-5" < i %}
+                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+
+                            {% endif %}
+                        {% endfor %}
+                        {% if medicines.has_next %}
+                            <li><a href="?page={{ medicines.next_page_number }}">&raquo;</a></li>
+                        {% endif %}
+
+                        {% if medicines.paginator.num_pages > 0 and medicines.number != medicines.paginator.num_pages %}
+
+                            <li><a href="?page={{ medicines.paginator.num_pages }}">Cuối</a></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        {% include 'frontend/common/footer.html' %}
+    </div>
+{% endblock %}

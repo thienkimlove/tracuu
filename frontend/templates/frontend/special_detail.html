@@ -1,0 +1,122 @@
+{% extends 'frontend/base.html' %}
+{% load staticfiles i18n  thumbnail core_helper %}
+
+{% block title %}
+    {{ block.super }}
+    {{ medicine.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-sub3 wrapper-sub">
+        <header class="header-sub">
+
+            {% include 'frontend/common/header.html' %}
+
+            <div class="banner-header">
+                {% include 'frontend/common/search_form.html' %}
+            </div>
+
+        </header>
+        <div class="body">
+            <div class="block3">
+                <div class="steps">
+                    <h2 class="step1">TRA CỨU DANH LỤC</h2>
+                    <span class="arrow"></span>
+                    <h3 class="step2">{{ medicine.name }}</h3>
+                </div>
+                <div class="content">
+                    <div class="block7">
+                        <div class="thumb-imgs">
+
+                            {% with 'galery_image1 galery_image2 galery_image3' as list %}
+                                {% for i in list.split %}
+                                    {% if medicine|getattribute:i %}
+                                        <a href="javascript:void(0)" title="{{ medicine.name }}" class="{% if forloop.counter == 1 %}active {% endif %} img-thumbs" data-img=".bigImg{{ forloop.counter }}" data-infos=".info1">
+
+                                            {% thumbnail medicine|getattribute:i "109x82" crop="center" as im %}
+                                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
+                                            {% endthumbnail %}
+
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+
+                            {% endwith %}
+
+                        </div>
+                        <div class="big-imgs">
+                            {% with 'galery_image1 galery_image2 galery_image3' as list %}
+                                {% for i in list.split %}
+                                    {% if medicine|getattribute:i %}
+                                        <a href="javascript:void(0)" title="{{ medicine.name }}" class="{% if forloop.counter == 1 %}active {% endif %}bigImg bigImg{{ forloop.counter }}">
+                                            {% thumbnail medicine|getattribute:i "356x266" crop="center" as im %}
+                                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
+                                            {% endthumbnail %}
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endwith %}
+                        </div>
+                        <div class="img-infos">
+                            <div class="info info1 active">
+                                <span class="title">{{ medicine.name }}</span>
+                                <span>Tên tiếng việt: {{ medicine.name }}</span>
+                                <span>Tên khoa học: {{ medicine.s_name }}</span>
+                                <span>Tên khác: {{ medicine.other_name }}</span>
+                                <span>Họ: {{ medicine.last_name }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="leftContent">
+                        <div class="detailDescriptions">
+                            <span class="captain"><i>Mô tả chi tiết</i></span>
+                            <div class="detailDesContent">
+                                {{ medicine.content |safe|escape }}
+                            </div>
+                            <div class="tags">
+                                <span>Từ khóa: </span>
+                                {% for tag in medicine.tags.all %}
+                                    <a href="{% url 'frontend:tag' tag.slug %}" title="{{ tag.name }}">{{ tag.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="rightContent">
+                         {% verbatim %}
+                        <div class="danhmuc_caythuoc" data-ng-app="myApp" data-ng-controller="SearchController">
+                            <h3 class="rs globalTitle">TRA CỨU DANH LỤC</h3>
+                            <div class="content">
+                                <input type="text" data-ng-model="searchMedicine" id="search_caythuoc" placeholder="Tìm kiếm cây thuốc ..."/>
+                                <select name="" id="choose_caythuoc" multiple>
+                                    <option value="" data-ng-click="redirectSpecial(medicine)" data-ng-repeat="medicine in SpecialList | filter: searchMedicine">{{ medicine.name }}</option>
+                                </select>
+                                <div class="choose_caythuoc">
+                                    <ul>
+                                        <li data-ng-click="redirectSpecial(medicine)" data-ng-repeat="medicine in SpecialList | filter: searchMedicine">{{ medicine.name }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                         {% endverbatim %}
+                        <div class="relatedTrees">
+                            <h3 class="rs globalTitle">Có thể bạn quan tâm</h3>
+                            <div class="content">
+                                {% for obj in related_objects %}
+                                    <a href="{% url obj|get_url_name obj.slug %}" class="item item5" title="{{ obj.name }}">
+                                        {% thumbnail obj.image "270x182" crop="center" as im %}
+                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                        {% endthumbnail %}
+                                        <span class="tree-name">{{ obj.name }}</span>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% include 'frontend/common/footer.html' %}
+    </div>
+{% endblock %}

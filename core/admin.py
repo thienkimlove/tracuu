@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.admin.models import LogEntry
 from django.utils.translation import gettext_lazy as _
 
 
@@ -10,6 +11,7 @@ from import_export.formats import base_formats
 from jsoneditor.forms import JSONEditor
 
 from core.forms import *
+from core.entry import LogEntryAdmin
 from core.models import *
 from core.resources import *
 from core.filters import *
@@ -23,69 +25,37 @@ def custom_titled_filter(title):
             return instance
     return Wrapper
 
+class GeneralWithTagAdmin(admin.ModelAdmin):
 
-class PositionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'created_at', )
-    search_fields = ["name"]
-    ordering = ["-created_at"]
-
-admin.site.register(Position, PositionAdmin)
-
-
-class BannerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'link', 'image_tag', 'position', 'created_at', 'status')
-    readonly_fields = ('image_tag',)
-
+    search_fields = ['name', ]
     list_filter = (
-        ('position__name', custom_titled_filter('position name')),
-        'link',
-    )
-    search_fields = ["link"]
-    ordering = ["-created_at"]
-    fieldsets = (
-        (None, {
-            'fields': ('name', 'link', 'position', 'image')
-        }),
-        ('Status', {
-            'fields': ('status',)
-        }),
+        'status',
     )
 
+    def get_queryset(self, request):
+        return super(GeneralWithTagAdmin, self).get_queryset(request).prefetch_related('tags')
 
-admin.site.register(Banner, BannerAdmin)
+    def tag_list(self, obj):
+        return u", ".join(o.name for o in obj.tags.all())
 
+    class Media:
+        css = {
+            "all": ("core/css/tiny.css",)
+        }
+        js = ("core/js/tinymce/js/tinymce/tinymce.min.js","core/js/tiny.js",)
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'get_modules', 'parent', 'created_at', 'status')
-    prepopulated_fields = {"slug": ("name",)}
+    list_display = ('name', 'slug', 'parent', 'created_at', 'status')
     search_fields = ['name']
 
 admin.site.register(Category, CategoryAdmin)
 
-class TagAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'seo_name', 'seo_desc', 'created_at')
-    prepopulated_fields = {"slug": ("name",)}
-    search_fields = ['name']
 
-admin.site.register(Tag, TagAdmin)
+class PostAdmin(ExportMixin, GeneralWithTagAdmin):
+    list_display = ('name', 'category', 'image_tag', 'views', 'tag_list', 'created_at', 'status')
 
-class ModuleAdmin(admin.ModelAdmin):
-    list_display = ('name', 'desc', 'created_at')
-    search_fields = ['name']
-
-admin.site.register(Module, ModuleAdmin)
-
-class PostAdmin(ExportMixin, admin.ModelAdmin):
-    list_display = ('name', 'category', 'image_tag', 'views', 'get_modules', 'get_tags', 'created_at', 'status')
-    prepopulated_fields = {"slug": ("name",)}
-    readonly_fields = ('views',)
-    search_fields = ['name']
-    list_filter = (
-        'category',
-        'status',
-    )
     form = PostForm
-    autocomplete_fields = ['category', 'tag', 'module']
+    autocomplete_fields = ['category']
     resource_class = PostResource
     to_encoding = "utf8mb4"
     formats = [
@@ -94,58 +64,48 @@ class PostAdmin(ExportMixin, admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 
-class MedicineAdmin(admin.ModelAdmin):
-    list_display = ('name', 'image_tag', 'views', 'get_modules', 'get_tags', 'created_at', 'status')
-    prepopulated_fields = {"slug": ("name",)}
-    readonly_fields = ('views',)
-    search_fields = ['name']
-    list_filter = (
-        'status',
-    )
+class MedicineAdmin(GeneralWithTagAdmin):
+    list_display = ('name', 'get_science_name', 'image_tag', 'views', 'tag_list', 'created_at', 'status')
     form = MedicineForm
-    autocomplete_fields = ['tag', 'module']
+    autocomplete_fields = ['disease']
 
 
 admin.site.register(Medicine, MedicineAdmin)
 
-class DiseaseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'image_tag', 'views', 'get_modules', 'get_tags', 'created_at', 'status')
-    prepopulated_fields = {"slug": ("name",)}
-    readonly_fields = ('views',)
-    search_fields = ['name']
-    list_filter = (
-        'status',
-    )
+
+class SpecialAdmin(GeneralWithTagAdmin):
+    list_display = ('name', 'get_science_name', 'image_tag', 'views', 'tag_list', 'created_at', 'status')
+    form = SpecialForm
+    autocomplete_fields = ['disease']
+
+
+admin.site.register(Special, SpecialAdmin)
+
+class DiseaseAdmin(GeneralWithTagAdmin):
+    list_display = ('name', 'get_science_name', 'image_tag', 'views', 'tag_list', 'created_at', 'status')
     form = DiseaseForm
-    autocomplete_fields = ['tag', 'module']
 
 
 admin.site.register(Disease, DiseaseAdmin)
 
-class DrugAdmin(admin.ModelAdmin):
-    list_display = ('name', 'image_tag', 'views', 'get_modules', 'get_tags', 'created_at', 'status')
-    prepopulated_fields = {"slug": ("name",)}
-    readonly_fields = ('views',)
-    search_fields = ['name']
-    list_filter = (
-        'status',
-    )
+class DrugAdmin(GeneralWithTagAdmin):
+    list_display = ('name', 'thanhphan', 'dangbaoche', 'chidinh','lieudung', 'image_tag', 'views',  'tag_list', 'created_at', 'status')
     form = DrugForm
-    autocomplete_fields = ['tag', 'module']
 
 
 admin.site.register(Drug, DrugAdmin)
 
 class ExpertAdmin(admin.ModelAdmin):
-    list_display = ('name', 'image_tag', 'views', 'get_modules', 'get_tags', 'created_at', 'status')
-    prepopulated_fields = {"slug": ("name",)}
-    readonly_fields = ('views',)
-    search_fields = ['name']
-    list_filter = (
-        'status',
-    )
-    form = ExpertForm
-    autocomplete_fields = ['tag', 'module']
+    list_display = ('name', 'image_tag', 'link', 'created_at', 'status')
 
 
 admin.site.register(Expert, ExpertAdmin)
+
+
+class VideoAdmin(admin.ModelAdmin):
+    list_display = ('name', 'link', 'channel', 'turns', 'created_at', 'status')
+    search_fields = ['name']
+
+admin.site.register(Video, VideoAdmin)
+
+admin.site.register(LogEntry, LogEntryAdmin)

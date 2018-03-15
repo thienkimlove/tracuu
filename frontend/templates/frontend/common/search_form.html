@@ -1,0 +1,15 @@
+{% load staticfiles i18n thumbnail %}
+
+<h1 class="logo">
+    <a href="{% url 'frontend:index' %}" title="">
+        <img src="/files/{{ config.LOGO_IMAGE }}" class="imgFull" width="145" height="146">
+    </a>
+</h1>
+
+<div class="search-header">
+    <form id="search_form" action="{% url 'frontend:search' %}" class="form-header">
+        <input name="search_value" value="{% if request.GET.search_value %}{{ request.GET.search_value }}{% endif %}" type="text" />
+        <button id="search_button"><img src="{% static "frontend/images/icon-search.jpg" %}" alt="" class="imgFull"></button>
+    </form>
+</div>
+

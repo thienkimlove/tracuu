@@ -4,55 +4,183 @@ from core.models import *
 from django.db import connection
 from django.apps import apps
 
+
 class Command(BaseCommand):
     help = 'Transfer data from old database to'
 
     def add_arguments(self, parser):
-        parser.add_argument('table', nargs='+', type=str)
+        parser.add_argument('old_table', type=str)
+        parser.add_argument('new_table', type=str)
+
+    def save_post(self, cursor):
+        # fill to ban-tin-duoc-lieu
+        category1 = Category.objects.get(pk=2)
+        # fill to thong-tin-khoa-hoc
+        category2 = Category.objects.get(pk=3)
+        Post.objects.filter(category__in=[category1, category2]).delete()
+
+        cursor.execute("select * from posts where category_id in (select id from categories where parent_id=4 )")
+        rows = cursor.fetchall()
+        for row in rows:
+            post1 = Post.objects.create(
+                name=row['title'],
+                slug=row['slug'],
+                desc=row['desc'],
+                seo_name=row['seo_title'],
+                seo_desc=row['desc'],
+                content=row['content'],
+                views=row['views'],
+                category=category1,
+                image=row['image']
+            )
+            # tags
+            cursor.execute(
+                "select t3.* from posts t1 left join post_tag t2 on t1.id=t2.post_id left join tags t3 on t2.tag_id=t3.id where t1.id=%s" %
+                row['id'])
+            for tag in cursor.fetchall():
+                post1.tags.add(str(tag['title']))
+            post1.save()
+
+        cursor.execute("select * from posts where category_id in (select id from categories where parent_id=9)")
+        rows = cursor.fetchall()
+        for row in rows:
+            post2 = Post.objects.create(
+                name=row['title'],
+                slug=row['slug'],
+                desc=row['desc'],
+                seo_name=row['seo_title'],
+                seo_desc=row['desc'],
+                content=row['content'],
+                views=row['views'],
+                category=category2,
+                image=row['image']
+            )
+            # tags
+            cursor.execute(
+                "select t3.* from posts t1 left join post_tag t2 on t1.id=t2.post_id left join tags t3 on t2.tag_id=t3.id where t1.id=%s" %
+                row['id'])
+            for tag in cursor.fetchall():
+                post2.tags.add(str(tag['title']))
+
+            post2.save()
+
+    def save_special(self, cursor):
+        Special.objects.all().delete()
+        cursor.execute("select * from posts where category_id=13")
+        rows = cursor.fetchall()
+        for row in rows:
+            special_medicine = Special.objects.create(
+                name=row['title'],
+                slug=row['slug'],
+                s_name=row['s_name'],
+                desc=row['desc'],
+                seo_name=row['seo_title'],
+                seo_desc=row['desc'],
+                content=row['content'],
+                views=row['views'],
+                image=row['image']
+            )
+
+            # tags
+            cursor.execute(
+                "select t3.* from posts t1 left join post_tag t2 on t1.id=t2.post_id left join tags t3 on t2.tag_id=t3.id where t1.id=%s" %
+                row['id'])
+            for tag in cursor.fetchall():
+                special_medicine.tags.add(str(tag['title']))
+
+            special_medicine.save()
+
+    def save_medicine(self, cursor):
+        Medicine.objects.all().delete()
+        cursor.execute("select * from posts where category_id=2")
+        rows = cursor.fetchall()
+        for row in rows:
+            medicine = Medicine.objects.create(
+                name=row['title'],
+                slug=row['slug'],
+                s_name=row['s_name'],
+                desc=row['desc'],
+                seo_name=row['seo_title'],
+                seo_desc=row['desc'],
+                content=row['content'],
+                views=row['views'],
+                image=row['image']
+            )
+
+            # tags
+            cursor.execute(
+                "select t3.* from posts t1 left join post_tag t2 on t1.id=t2.post_id left join tags t3 on t2.tag_id=t3.id where t1.id=%s" %
+                row['id'])
+            for tag in cursor.fetchall():
+                medicine.tags.add(str(tag['title']))
+
+            medicine.save()
+
+    def save_disease(self, cursor):
+        Disease.objects.all().delete()
+        cursor.execute("select * from posts where category_id=3")
+        rows = cursor.fetchall()
+        for row in rows:
+            disease = Disease.objects.create(
+                name=row['title'],
+                slug=row['slug'],
+                s_name=row['s_name'],
+                desc=row['desc'],
+                seo_name=row['seo_title'],
+                seo_desc=row['desc'],
+                content=row['content'],
+                views=row['views'],
+                image=row['image']
+            )
+
+            # tags
+            cursor.execute(
+                "select t3.* from posts t1 left join post_tag t2 on t1.id=t2.post_id left join tags t3 on t2.tag_id=t3.id where t1.id=%s" %
+                row['id'])
+            for tag in cursor.fetchall():
+                disease.tags.add(str(tag['title']))
+
+            disease.save()
+
+    def save_drug(self, cursor):
+        Drug.objects.all().delete()
+        cursor.execute("select * from posts where category_id=14")
+        rows = cursor.fetchall()
+        for row in rows:
+            drug = Drug.objects.create(
+                name=row['title'],
+                slug=row['slug'],
+                s_name=row['s_name'],
+                desc=row['desc'],
+                seo_name=row['seo_title'],
+                seo_desc=row['desc'],
+                content=row['content'],
+                views=row['views'],
+                image=row['image']
+            )
+
+            # tags
+            cursor.execute(
+                "select t3.* from posts t1 left join post_tag t2 on t1.id=t2.post_id left join tags t3 on t2.tag_id=t3.id where t1.id=%s" %
+                row['id'])
+            for tag in cursor.fetchall():
+                drug.tags.add(str(tag['title']))
+
+            drug.save()
 
     def handle(self, *args, **options):
 
-        for table in options['table']:
+        conn = MySQLdb.connect(host="42.112.31.173",  # your host, usually localhost
+                               user="tieungao",  # your username
+                               passwd="tieungao123",  # your password
+                               db="duoclieu", charset='utf8mb4')  # name of the data base
 
-            if table == 'districts' or table == 'provinces':
-                db_name = 'static'
-            else:
-                db_name = 'cagaileo'
+        cursor = conn.cursor(MySQLdb.cursors.DictCursor)
+        #self.save_post(cursor)
+        #self.save_medicine(cursor)
+        #self.save_special(cursor)
+        #self.save_disease(cursor)
+        self.save_drug(cursor)
 
-            conn = MySQLdb.connect(host="42.112.31.173",    # your host, usually localhost
-                                   user="tieungao",         # your username
-                                   passwd="tieungao123",  # your password
-                                   db=db_name, charset='utf8mb4')        # name of the data base
-            try:
-                connection.cursor().execute("set FOREIGN_KEY_CHECKS = 0")
-                connection.cursor().execute("TRUNCATE TABLE %s" % table)
-
-                cursor = conn.cursor(MySQLdb.cursors.DictCursor)
-
-                if table == 'product_tag':
-                    cursor.execute("select * from %s" % table)
-                    for row in cursor.fetchall():
-                        connection.cursor().execute("insert into %s (product_id, tag_id)  VALUES(%s, %s)" % (table, row['product_id'], row['tag_id']))
-                elif table == 'post_tag':
-                    cursor.execute("select * from %s" % table)
-                    for row in cursor.fetchall():
-                        connection.cursor().execute("insert into %s (post_id, tag_id)  VALUES(%s, %s)" % (table, row['post_id'], row['tag_id']))
-                elif table == 'modules':
-                    cursor.execute("select * from %s" % table)
-                    for row in cursor.fetchall():
-                        obj, created = Module.objects.update_or_create(**{ 'name' : row['type'] })
-                        model_name = next((m for m in apps.get_models() if m._meta.db_table==row['content']), None)
-                        main_obj = model_name.objects.get(pk=row['value'])
-                        main_obj.module.add(obj)
-                        main_obj.save()
-                else:
-                    model_name = next((m for m in apps.get_models() if m._meta.db_table==table), None)
-                    if model_name is not None:
-                        cursor.execute("select * from %s" % table)
-                        model_name.objects.bulk_create([model_name(**row) for row in cursor.fetchall()])
-
-                connection.cursor().execute("set FOREIGN_KEY_CHECKS = 1")
-            finally:
-                conn.close()
-
-            self.stdout.write(self.style.SUCCESS('Successfully imported "%s"' % table))
+        self.stdout.write(
+            self.style.SUCCESS('Successfully imported "%s" for "%s"' % (options['old_table'], options['new_table'])))

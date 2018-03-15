@@ -1,1 +1,87 @@
-Frontend Index
+{% extends 'frontend/base.html' %}
+{% load staticfiles i18n thumbnail core_helper %}
+
+{% block title %}
+    {{ block.super }}
+   {{ config.INDEX_TITLE }}
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper">
+        <header class="header-index">
+            {% include 'frontend/common/header.html' %}
+            <div class="banner-header">
+                <h1 class="logo">
+                    <a href="{% url 'frontend:index' %}" title="">
+                        <img src="/files/{{ config.LOGO_IMAGE }}" alt="" class="imgFull" width="145" height="146">
+                    </a>
+                </h1>
+                <div class="search-header">
+                    <form id="search_form" action="{% url 'frontend:search' %}" class="form-header">
+                        <input name="search_value" value="{% if request.GET.search_value %}{{ request.GET.search_value }}{% endif %}" type="text" />
+                        <button id="search_button"><img src="{% static "frontend/images/icon-search.jpg" %}" alt="" class="imgFull"></button>
+                    </form>
+                    <div class="textSearchMost">
+                        Từ khóa được tìm kiếm nhiều: Giảo Cổ Lam, Sâm Cau, Hà Thủ Ô
+                    </div>
+                </div>
+                <div class="txt-header">
+                    tra cứu khoa học - thông tin đầy đủ, phong phú - được tư vấn bởi các chuyên gia hàng đầu
+                </div>
+            </div>
+        </header>
+        <div class="body">
+            <div class="block1">
+                <div class="leftBlock">
+                    <a href="{% url 'frontend:medicine_list' %}" class="research research1">
+                        <img src="{% static "frontend/images/img-research1.jpg" %}" alt="" class="imgFull">
+                    </a>
+                    <a href="{% url 'frontend:special_list' %}" class="research research2">
+                        <img src="{% static "frontend/images/img-research2.jpg" %}" alt="" class="imgFull">
+                    </a>
+                    <a href="#" class="research research3">
+                        <img src="{% static "frontend/images/img-research3.jpg" %}" alt="" class="imgFull">
+                    </a>
+                    <a href="#" class="research research4">
+                        <img src="{% static "frontend/images/img-research4.jpg" %}" alt="" class="imgFull">
+                    </a>
+                </div>
+                <div class="rightBlock">
+                    <h3 class="globalTitle">Góc chuyên gia</h3>
+                    <div class="content">
+                        {% for expert in experts %}
+                            <div class="item item{{ forloop.counter }}">
+                                <div class="left">
+                                    {% thumbnail expert.image "67x76" crop="center" as im %}
+                                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
+                                    {% endthumbnail %}
+
+                                </div>
+                                <div class="right">
+                                    <a href="{{ expert.link }}" class="name" title="{{ expert.name }}">{{ expert.name }}</a>
+                                    <a href="{{ expert.link }}" class="view-more" title="Xem thêm">Xem thêm</a>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+            <div class="block2">
+                <h3 class="globalTitle">Được tìm kiếm nhiều</h3>
+                <div class="content">
+                    {% for medicine in most_search %}
+                        <a href="{% url 'frontend:medicine_detail' medicine.slug %}" class="item item1" title="{{ medicine.name }}" style="background: url('/files/{{  medicine.image }}') center center no-repeat;">
+                            {% thumbnail medicine.image "583x392" crop="center" as im %}
+                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
+                            {% endthumbnail %}
+                            <span class="tree-name">{{ medicine.name }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% include 'frontend/common/footer.html' %}
+    </div>
+{% endblock %}

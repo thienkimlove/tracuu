@@ -1,3 +1,7 @@
+if(!jQuery){
+    var jQuery = django.jQuery;
+}
+
 /**
  * Created by sune on 04/02/2016.
  */
@@ -20,14 +24,31 @@ function CustomFileBrowser(input_id, input_value, type, win){
     return false;
 }
 
-tinymce.init({
-    mode : "specific_textareas",
-    editor_selector : "editor",
-    file_browser_callback: CustomFileBrowser,
-    convert_urls : false,
-    themes : 'inlite',
-    width: "60%",
-    plugins: 'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount  imagetools contextmenu colorpicker textpattern help',
-    toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
-    image_advtab: true,
-});
+var elementExists = document.getElementById("id_gioithieu_content");
+
+if (elementExists) {
+    tinymce.init({
+        mode : "exact",
+        elements : elementExists,
+        file_browser_callback: CustomFileBrowser,
+        convert_urls : false,
+        themes : 'inlite',
+        width: "60%",
+        plugins: 'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount  imagetools contextmenu colorpicker textpattern help',
+        toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+        image_advtab: true,
+    });
+} else {
+    tinymce.init({
+        mode : "specific_textareas",
+        editor_selector : "editor",
+        file_browser_callback: CustomFileBrowser,
+        convert_urls : false,
+        themes : 'inlite',
+        width: "60%",
+        plugins: 'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount  imagetools contextmenu colorpicker textpattern help',
+        toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+        image_advtab: true,
+    });
+}
+

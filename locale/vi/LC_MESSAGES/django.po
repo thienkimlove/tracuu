@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-08 07:45+0000\n"
+"POT-Creation-Date: 2018-03-15 09:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,32 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: project/settings.py:200
+msgid "Site logo"
+msgstr "Logo trang"
+
+#: project/settings.py:201
+msgid "Index title"
+msgstr "Title trang chủ"
+
+#: project/settings.py:202
+msgid "Recommend title"
+msgstr "Tiêu đề trang giới thiệu"
+
+#: project/settings.py:203
+#, fuzzy
+#| msgid "Expert Content"
+msgid "Expert title"
+msgstr "Tiêu đề trang chuyên gia"
+
+#: project/settings.py:204
+msgid "Recommend Content"
+msgstr "Nội dung trang giới thiệu"
+
+#: project/settings.py:205
+msgid "Expert Content"
+msgstr "Nội dung trang chuyên gia"
 
 #: templates/admin/base_site.html:3
 msgid "Django site admin"

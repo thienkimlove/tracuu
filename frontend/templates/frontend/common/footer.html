@@ -1,0 +1,28 @@
+{% load staticfiles i18n %}
+<footer>
+    <div class="left">
+        <div class="textLeft">
+            <a href="{% url 'frontend:index' %}" title="Trang chủ">Trang chủ</a>
+            <a href="{% url 'frontend:recommend' %}" title="Giới thiệu">Giới thiệu</a>
+            <a href="{% url 'frontend:news' %}" title="Bản tin dược liệu">Bản tin dược liệu</a>
+            <a href="{% url 'frontend:info' %}" title="Thông tin khoa học">Thông tin khoa học</a>
+            <a href="{% url 'frontend:expert' %}" title="Chuyên gia dược liệu">Chuyên gia dược liệu</a>
+        </div>
+        <div class="textRight">
+            <a href="{% url 'frontend:medicine_list' %}"  title="Tra cứu dược liệu">Tra cứu dược liệu</a>
+            <a href="{% url 'frontend:special_list' %}"  title="Tra cứu danh mục">Tra cứu danh mục</a>
+            <a href="{% url 'frontend:disease_list' %}"  title="Tra cứu theo bệnh">Tra cứu theo bệnh</a>
+            <a href="{% url 'frontend:drug_list' %}"  title="Tra cứu bài thuốc">Tra cứu bài thuốc</a>
+        </div>
+    </div>
+    <div class="right">
+        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fviemgan.com.vn&amp;tabs=timeline&amp;width=260&amp;height=150&amp;small_header=false&amp;adapt_container_width=false&amp;hide_cover=false&amp;show_facepile=false&amp;appId" width="260" height="150" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowtransparency="true"></iframe>
+        <div class="accessTurns">
+            <div class="top">1000.000</div>
+            <div class="bottom">Lượt truy cập</div>
+        </div>
+    </div>
+</footer>
+<div class="txt-bottom">
+    Các thông tin trên Website được dựa trên Cuốn Danh lục cây thuốc Việt Nam, cây thuốc và động vật làm thuốc ...
+</div>

@@ -1,0 +1,81 @@
+{% extends 'frontend/base.html' %}
+{% load staticfiles i18n  thumbnail core_helper %}
+
+{% block title %}
+    {{ block.super }}
+    {{ drug.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-sub3 wrapper-sub">
+        <header class="header-sub">
+            {% include 'frontend/common/header.html' %}
+            <div class="banner-header">
+                {% include 'frontend/common/search_form.html' %}
+            </div>
+        </header>
+        <div class="body">
+            <div class="block3">
+                <div class="steps">
+                    <h2 class="step1">TRA CỨU THEO BÀI THUỐC</h2>
+                    <span class="arrow"></span>
+                    <h3 class="step2">{{ drug.name }}</h3>
+                </div>
+                <div class="content">
+                    <div class="leftContent">
+                        {{ drug.content|safe|escape }}
+                        <h3 class="tabTitle">Thành phần</h3>
+                        <div class="tabContent tabIngredient">
+                            {{ drug.thanhphan }}
+                        </div>
+                        <h3 class="tabTitle">Dạng bào chế</h3>
+                        <div class="tabContent tabDosageForms">
+                            {{ drug.dangbaoche }}
+                        </div>
+                        <h3 class="tabTitle">Chỉ định</h3>
+                        <div class="tabContent tabIndication">
+                            {{ drug.chidinh }}
+                        </div>
+                        <h3 class="tabTitle">Liều dùng</h3>
+                        <div class="tabContent tabDosage">
+                            {{ drug.lieudung }}
+                        </div>
+                    </div>
+                    <div class="rightContent">
+                        {% verbatim %}
+                        <div class="danhmuc_caythuoc" data-ng-app="myApp" data-ng-controller="SearchController">
+                            <h3 class="rs globalTitle">TRA CỨU DƯỢC LIỆU</h3>
+                            <div class="content">
+                                <input type="text" data-ng-model="searchMedicine" id="search_caythuoc" placeholder="Tìm kiếm cây thuốc ..."/>
+                                <select name="" id="choose_caythuoc" multiple>
+                                    <option value="" data-ng-click="redirect(medicine)" data-ng-repeat="medicine in medicineList | filter: searchMedicine">{{ medicine.name }}</option>
+                                </select>
+                                <div class="choose_caythuoc">
+                                    <ul>
+                                        <li data-ng-click="redirect(medicine)" data-ng-repeat="medicine in medicineList | filter: searchMedicine">{{ medicine.name }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% endverbatim %}
+                        <div class="relatedTrees">
+                            <h3 class="rs globalTitle">Có thể bạn quan tâm</h3>
+                            <div class="content">
+                                {% for obj in related_objects %}
+
+                                    <a href="{% url obj|get_url_name obj.slug %}" class="item item{{ forloop.counter }}" title="{{ obj.name }}">
+                                        {% thumbnail obj.image "270x182" crop="center" as im %}
+                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                        {% endthumbnail %}
+                                        <span class="tree-name">{{ obj.name }}</span>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'frontend/common/footer.html' %}
+    </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% load staticfiles i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--[if IE]>
+    <link rel="stylesheet" href="{% static "frontend/css/all-ie-only.css" %}">
+    <![endif]-->
+    <link rel="stylesheet" href="{% static "frontend/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "frontend/css/home.css" %}">
+</head>
+<body>
+<!--583x392-->
+{% block content %}
+{% endblock %}
+
+<script src="{% static "frontend/js/jquery-1.11.1.min.js" %}"></script>
+<script src="{% static "frontend/js/SmoothScroll.js" %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script src="{% static "frontend/js/index.js" %}"></script>
+<script src="{% static "frontend/js/search.js" %}"></script>
+<script type="text/javascript">
+    $(function(){
+        $('button#search_button').click(function(){
+            $('form#search_form').submit();
+        });
+
+        $('button#button_medicine').click(function(){
+            $('form#search_medicine').submit();
+        });
+
+        $('button#button_special').click(function(){
+            $('form#search_special').submit();
+        });
+    });
+</script>
+</body>
+</html>

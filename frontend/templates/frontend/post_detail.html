@@ -1,0 +1,65 @@
+{% extends 'frontend/base.html' %}
+{% load staticfiles i18n  thumbnail core_helper %}
+
+{% block title %}
+    {{ block.super }}
+    {{ medicine.name }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="wrapper wrapper-sub">
+        <header class="header-sub">
+            {% include 'frontend/common/header.html' %}
+            <div class="banner-header">
+                {% include 'frontend/common/search_form.html' %}
+            </div>
+        </header>
+        <div class="body">
+            <div class="block3">
+                <div class="steps">
+                    <h2 class="step1">Bản tin dược liệu</h2>
+                </div>
+                <div class="content">
+                    <article class="detailContent news">
+                        <div class="leftContent">
+                           {{ medicine.content|safe|escape }}
+                        </div>
+                        <div class="rightContent">
+                            <div class="relatedTrees">
+                                <h3 class="rs globalTitle">Có thể bạn quan tâm</h3>
+                                <div class="content">
+                                    {% for obj in related_objects %}
+                                        <a href="{% url obj|get_url_name obj.slug %}" class="item item{{ forloop.counter }}" title="{{ obj.name }}">
+                                            {% thumbnail obj.image "270x182" crop="center" as im %}
+                                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                            {% endthumbnail %}
+                                            <span class="tree-name">{{ obj.name }}</span>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <div class="relateMedicines relateNews">
+                        <h3 class="globalTitle">Tin mới nhất</h3>
+                        <div class="content">
+                            {% for obj in latest_objects %}
+
+                                <a href="{% url 'frontend:post_detail' obj.slug %}" class="item item{{ forloop.counter }}" title="{{ obj.name }}"  style="background: url('{{ obj.image.url }}') center center no-repeat;">
+                                    {% thumbnail obj.image "298x200" crop="center" as im %}
+                                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                    {% endthumbnail %}
+                                    <span class="tree-name">{{ obj.name }}</span>
+                                </a>
+
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'frontend/common/footer.html' %}
+    </div>
+{% endblock %}

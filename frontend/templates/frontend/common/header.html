@@ -1,0 +1,34 @@
+{% load staticfiles i18n %}
+<div class="top">
+    <span class="textL">Hotline: <a href="tel:19001111" title="19001111">1900 1111</a></span>|<span class="textR"><a href="mailto:info@tracuuduoclieu.com"  title="info@tracuuduoclieu.com">info@tracuuduoclieu.com</a></span>
+</div>
+<a href="javascript:void(0)" class="btnMenu btnClose"></a>
+<nav class="menuTop">
+    <ul>
+        <li>
+            <a href="{% url 'frontend:index' %}"  title="Trang chủ">Trang chủ</a>
+        </li>
+        <li>
+            <a href="{% url 'frontend:recommend' %}"  title="Giới thiệu">Giới thiệu</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)"  title="Danh sách dược liệu">Danh sách dược liệu</a>
+            <ul class="subMenu">
+                <li><a href="{% url 'frontend:medicine_list' %}" title="Tra cứu dược liệu">Tra cứu dược liệu</a></li>
+                <li><a href="{% url 'frontend:special_list' %}" title="Tra cứu theo danh lục">Tra cứu danh lục</a></li>
+                <li><a href="{% url 'frontend:disease_list' %}" title="Tra cứu theo bệnh">Tra cứu theo bệnh</a></li>
+                <li><a href="{% url 'frontend:drug_list' %}" title="Tra cứu theo bài thuốc">Tra cứu bài thuốc</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0)" title="Tin tức">Tin tức</a>
+            <ul class="subMenu">
+                <li><a href="{% url 'frontend:news' %}" title="Bản tin dược liệu">Bản tin dược liệu</a></li>
+                <li><a href="{%  url 'frontend:info' %}" title="Thông tin khoa học">Thông tin khoa học</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="{%  url 'frontend:expert' %}" title="Chuyên gia dược liệu">Chuyên gia dược liệu</a>
+        </li>
+    </ul>
+</nav>
