@@ -6,6 +6,15 @@
     Tra cứu | Bản tin dược liệu
 {% endblock %}
 
+{% block meta %}
+    {{ block.super }}
+    <meta property="og:title" content="Tra cứu | Bản tin dược liệu">
+    <meta name="twitter:title" content="Tra cứu | Bản tin dược liệu">
+    <meta itemprop="name" content="Tra cứu | Bản tin dược liệu">
+    <meta name="ABSTRACT" content="Tra cứu | Bản tin dược liệu"/>
+{% endblock %}
+
+
 {% block content %}
     <div class="wrapper wrapper-sub wrapper-sub2">
         <header class="header-sub">
@@ -26,7 +35,7 @@
             <div class="block4">
                 <div class="leftBlock">
                     {% for medicine in medicines|slice:"0:1" %}
-                    <a href="{% url 'frontend:post_detail' medicine.slug %}" class="item" title="{{ medicine.name }}" style="background: url('{{ medicine.image.url }}') center center no-repeat;">
+                    <a href="{% url 'frontend:content_detail' medicine.slug %}" class="item" title="{{ medicine.name }}" style="background: url('{{ medicine.image.url }}') center center no-repeat;">
 
                         {% thumbnail medicine.image "500x336" crop="center" as im %}
                             <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
@@ -40,7 +49,7 @@
                 </div>
                 <div class="rightBlock">
                     {% for medicine in medicines|slice:"1:3" %}
-                    <a href="{% url 'frontend:post_detail' medicine.slug %}" class="item" title="{{ medicine.name }}">
+                    <a href="{% url 'frontend:content_detail' medicine.slug %}" class="item" title="{{ medicine.name }}">
                         {% thumbnail medicine.image "233x157" crop="center" as im %}
                             <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
                         {% endthumbnail %}
@@ -56,7 +65,7 @@
             <div class="block5">
                 <div class="leftBlock">
                     {% for medicine in medicines|slice:"3:" %}
-                        <a href="{% url 'frontend:post_detail' medicine.slug %}" class="item"
+                        <a href="{% url 'frontend:content_detail' medicine.slug %}" class="item"
                            title="{{ medicine.name }}">
                             {% thumbnail medicine.image "332x223" crop="center" as im %}
                                 <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
@@ -71,7 +80,11 @@
                 </div>
                 <div class="rightBlock">
                     <a href="javascript:void(0)" title="Dược liệu Tuệ Linh - Dược liệu sạch cho mọi nhà">
-                        <img src="{% static "frontend/images/demo4.jpg" %}" alt="" class="imgFull">
+
+                        {% if category.banner_image %}
+                            <img src="{{ category.banner_image.url }}" alt="" class="imgFull">
+                        {% endif %}
+
                     </a>
                 </div>
                 {% if medicines.has_other_pages %}

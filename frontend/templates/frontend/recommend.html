@@ -4,6 +4,28 @@
     {{ block.super }}
     {{ config.RECOMMEND_TITLE }}
 {% endblock %}
+
+{% block meta %}
+    {{ block.super }}
+
+    <meta property="og:title" content="{{ config.RECOMMEND_TITLE }}">
+    <meta property="og:description" content="{{ config.RECOMMEND_DESC }}">
+    <meta property="og:image" content="/files/{{ config.RECOMMEND_IMAGE }}">
+
+    <meta name="twitter:title" content="{{ config.RECOMMEND_TITLE }}">
+    <meta name="twitter:description" content="{{ config.RECOMMEND_DESC }}">
+    <meta name="twitter:image" content="/files/{{ config.RECOMMEND_IMAGE }}">
+
+    <meta itemprop="name" content="{{ config.RECOMMEND_TITLE }}">
+    <meta itemprop="description" content="{{ config.RECOMMEND_DESC }}">
+    <meta itemprop="image" content="/files/{{ config.RECOMMEND_IMAGE }}">
+
+    <meta name="ABSTRACT" content="{{ config.RECOMMEND_DESC }}"/>
+    <meta name="DESCRIPTION" content="{{ config.RECOMMEND_DESC }}"/>
+    <meta name="KEYWORDS" content="{{ config.RECOMMEND_KEYWORDS }}"/>
+
+{% endblock %}
+
 {% block content %}
     <div class="wrapper wrapper-sub wrapper-sub4">
         <header class="header-sub">

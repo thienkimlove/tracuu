@@ -1,6 +1,8 @@
 import re
+from random import randint
 from urllib.parse import parse_qs
 
+from constance import config
 from django import template
 from django.conf import settings
 
@@ -41,4 +43,41 @@ def youtube(value, args):
 
 @register.filter()
 def get_url_name(value):
-    return 'frontend:'+value.__class__.__name__.lower()+'_detail'
+    #return 'frontend:'+value.__class__.__name__.lower()+'_detail'
+    return 'frontend:content_detail'
+
+@register.filter()
+def get_seo_name(content):
+    if hasattr(content, 'seo_name') and content.seo_name:
+        return content.seo_name
+    
+    return config.INDEX_TITLE
+
+@register.filter()
+def get_seo_image(content):
+    if hasattr(content, 'image') and content.image:
+        return content.image.url
+
+    return '/files/' + config.LOGO_IMAGE
+
+@register.filter()
+def get_seo_desc(content):
+    if hasattr(content, 'seo_desc') and content.seo_desc:
+        return content.seo_desc
+
+    return config.INDEX_DESC
+
+@register.filter()
+def display_not_none(value):
+    if value is not None:
+        return value
+    return ''
+
+@register.simple_tag
+def random_number(length=4):
+    """
+    Create a random integer with given length.
+    For a length of 3 it will be between 100 and 999.
+    For a length of 4 it will be between 1000 and 9999.
+    """
+    return randint(10**(length-1), (10**(length)-1))

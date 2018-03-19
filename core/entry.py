@@ -81,6 +81,7 @@ class LogEntryAdmin(admin.ModelAdmin):
     list_filter = [
         UserListFilter,
         #'content_type',
+        #'object_repr',
         ActionListFilter
     ]
 

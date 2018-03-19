@@ -38,11 +38,6 @@ class GeneralWithTagAdmin(admin.ModelAdmin):
     def tag_list(self, obj):
         return u", ".join(o.name for o in obj.tags.all())
 
-    class Media:
-        css = {
-            "all": ("core/css/tiny.css",)
-        }
-        js = ("core/js/tinymce/js/tinymce/tinymce.min.js","core/js/tiny.js",)
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'parent', 'created_at', 'status')
@@ -89,7 +84,7 @@ class DiseaseAdmin(GeneralWithTagAdmin):
 admin.site.register(Disease, DiseaseAdmin)
 
 class DrugAdmin(GeneralWithTagAdmin):
-    list_display = ('name', 'thanhphan', 'dangbaoche', 'chidinh','lieudung', 'image_tag', 'views',  'tag_list', 'created_at', 'status')
+    list_display = ('name', 'image_tag', 'views',  'tag_list', 'created_at', 'status')
     form = DrugForm
 
 

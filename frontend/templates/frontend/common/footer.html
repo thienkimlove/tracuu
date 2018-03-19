@@ -1,4 +1,4 @@
-{% load staticfiles i18n %}
+{% load staticfiles i18n core_helper %}
 <footer>
     <div class="left">
         <div class="textLeft">
@@ -18,11 +18,12 @@
     <div class="right">
         <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fviemgan.com.vn&amp;tabs=timeline&amp;width=260&amp;height=150&amp;small_header=false&amp;adapt_container_width=false&amp;hide_cover=false&amp;show_facepile=false&amp;appId" width="260" height="150" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowtransparency="true"></iframe>
         <div class="accessTurns">
-            <div class="top">1000.000</div>
+            {% random_number as my_id %}
+            <div class="top">{{ my_id }}</div>
             <div class="bottom">Lượt truy cập</div>
         </div>
     </div>
 </footer>
 <div class="txt-bottom">
-    Các thông tin trên Website được dựa trên Cuốn Danh lục cây thuốc Việt Nam, cây thuốc và động vật làm thuốc ...
+  {{ config.FOOTER_TEXT }}
 </div>

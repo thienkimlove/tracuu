@@ -1,6 +1,6 @@
 {% load staticfiles i18n %}
 <div class="top">
-    <span class="textL">Hotline: <a href="tel:19001111" title="19001111">1900 1111</a></span>|<span class="textR"><a href="mailto:info@tracuuduoclieu.com"  title="info@tracuuduoclieu.com">info@tracuuduoclieu.com</a></span>
+    <span class="textL">Hotline: <a href="tel:{{ config.HEADER_HOTLINE }}" title="19001111">{{ config.HEADER_HOTLINE }}</a></span>|<span class="textR"><a href="mailto:{{ config.HEADER_EMAIL }}"  title="{{ config.HEADER_EMAIL }}">{{ config.HEADER_EMAIL }}</a></span>
 </div>
 <a href="javascript:void(0)" class="btnMenu btnClose"></a>
 <nav class="menuTop">

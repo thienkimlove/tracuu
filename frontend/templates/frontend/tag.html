@@ -6,6 +6,14 @@
     DƯỢC LIỆU THEO TỪ KHÓA
 {% endblock %}
 
+{% block meta %}
+    {{ block.super }}
+    <meta property="og:title" content=" DƯỢC LIỆU THEO TỪ KHÓA {{ tag.name|upper }}">
+    <meta name="twitter:title" content="  DƯỢC LIỆU THEO TỪ KHÓA {{ tag.name|upper }}">
+    <meta itemprop="name" content="  DƯỢC LIỆU THEO TỪ KHÓA {{ tag.name|upper }}">
+    <meta name="ABSTRACT" content="  DƯỢC LIỆU THEO TỪ KHÓA {{ tag.name|upper }}"/>
+{% endblock %}
+
 {% block content %}
     <div class="wrapper wrapper-sub">
         <header class="header-sub">
@@ -30,7 +38,7 @@
                             {% endthumbnail %}
                         </div>
                         <div class="right">
-                            <a href="{% url 'frontend:medicine_detail' medicine.slug %}" class="title" title="{{ medicine.name }}">{{ medicine.name }}</a>
+                            <a href="{% url 'frontend:content_detail' medicine.slug %}" class="title" title="{{ medicine.name }}">{{ medicine.name }}</a>
                             <div class="info">
                                 <span>Tên tiếng việt: {{ medicine.name }}</span>
                                 <span>Tên khoa học: {{ medicine.s_name }}</span>

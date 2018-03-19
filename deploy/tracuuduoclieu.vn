@@ -2,6 +2,8 @@ server {
     listen 80;
     server_name tracuuduoclieu.vn;
 
+    client_max_body_size 500M;
+
     access_log /var/log/nginx/tracuuduoclieu_vn_access.log;
     error_log /var/log/nginx/tracuuduoclieu_vn_error.log;
 

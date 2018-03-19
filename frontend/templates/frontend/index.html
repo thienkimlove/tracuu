@@ -6,6 +6,27 @@
    {{ config.INDEX_TITLE }}
 {% endblock %}
 
+{% block meta %}
+    {{ block.super }}
+
+    <meta property="og:title" content="{{ config.INDEX_TITLE }}">
+    <meta property="og:description" content="{{ config.INDEX_DESC }}">
+    <meta property="og:image" content="/files/{{ config.LOGO_IMAGE }}">
+
+    <meta name="twitter:title" content="{{ config.INDEX_TITLE }}">
+    <meta name="twitter:description" content="{{ config.INDEX_DESC }}">
+    <meta name="twitter:image" content="/files/{{ config.LOGO_IMAGE }}">
+
+    <meta itemprop="name" content="{{ config.INDEX_TITLE }}">
+    <meta itemprop="description" content="{{ config.INDEX_DESC }}">
+    <meta itemprop="image" content="/files/{{ config.LOGO_IMAGE }}">
+
+    <meta name="ABSTRACT" content="{{ config.INDEX_DESC }}"/>
+    <meta name="DESCRIPTION" content="{{ config.INDEX_DESC }}"/>
+    <meta name="KEYWORDS" content="{{ config.INDEX_KEYWORDS }}"/>
+
+{% endblock %}
+
 {% block content %}
     <div class="wrapper">
         <header class="header-index">
@@ -18,7 +39,7 @@
                 </h1>
                 <div class="search-header">
                     <form id="search_form" action="{% url 'frontend:search' %}" class="form-header">
-                        <input name="search_value" value="{% if request.GET.search_value %}{{ request.GET.search_value }}{% endif %}" type="text" />
+                        <input id="search_value" name="search_value" value="{% if request.GET.search_value %}{{ request.GET.search_value }}{% endif %}" type="text" />
                         <button id="search_button"><img src="{% static "frontend/images/icon-search.jpg" %}" alt="" class="imgFull"></button>
                     </form>
                     <div class="textSearchMost">
@@ -72,7 +93,7 @@
                 <h3 class="globalTitle">Được tìm kiếm nhiều</h3>
                 <div class="content">
                     {% for medicine in most_search %}
-                        <a href="{% url 'frontend:medicine_detail' medicine.slug %}" class="item item1" title="{{ medicine.name }}" style="background: url('/files/{{  medicine.image }}') center center no-repeat;">
+                        <a href="{% url 'frontend:content_detail' medicine.slug %}" class="item item1" title="{{ medicine.name }}" style="background: url('/files/{{  medicine.image }}') center center no-repeat;">
                             {% thumbnail medicine.image "583x392" crop="center" as im %}
                                 <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
                             {% endthumbnail %}

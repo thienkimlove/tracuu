@@ -8,8 +8,10 @@
 
 <div class="search-header">
     <form id="search_form" action="{% url 'frontend:search' %}" class="form-header">
-        <input name="search_value" value="{% if request.GET.search_value %}{{ request.GET.search_value }}{% endif %}" type="text" />
+        <input id="search_value" name="search_value" value="{% if request.GET.search_value %}{{ request.GET.search_value }}{% endif %}" type="text" />
+
         <button id="search_button"><img src="{% static "frontend/images/icon-search.jpg" %}" alt="" class="imgFull"></button>
+
     </form>
 </div>
 

@@ -5,6 +5,27 @@
     {{ config.EXPERT_TITLE }}
 {% endblock %}
 
+{% block meta %}
+    {{ block.super }}
+
+    <meta property="og:title" content="{{ config.EXPERT_TITLE }}">
+    <meta property="og:description" content="{{ config.EXPERT_DESC }}">
+    <meta property="og:image" content="/files/{{ config.EXPERT_IMAGE }}">
+
+    <meta name="twitter:title" content="{{ config.EXPERT_TITLE }}">
+    <meta name="twitter:description" content="{{ config.EXPERT_DESC }}">
+    <meta name="twitter:image" content="/files/{{ config.EXPERT_IMAGE }}">
+
+    <meta itemprop="name" content="{{ config.EXPERT_TITLE }}">
+    <meta itemprop="description" content="{{ config.EXPERT_DESC }}">
+    <meta itemprop="image" content="/files/{{ config.EXPERT_IMAGE }}">
+
+    <meta name="ABSTRACT" content="{{ config.EXPERT_DESC }}"/>
+    <meta name="DESCRIPTION" content="{{ config.EXPERT_DESC }}"/>
+    <meta name="KEYWORDS" content="{{ config.EXPERT_KEYWORDS }}"/>
+
+{% endblock %}
+
 {% block content %}
     <div class="wrapper wrapper-sub wrapper-sub4">
         <header class="header-sub">

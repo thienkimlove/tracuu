@@ -3,7 +3,28 @@
 
 {% block title %}
     {{ block.super }}
-    {{ medicine.name }}
+    {{ content.name }}
+{% endblock %}
+
+{% block meta %}
+    {{ block.super }}
+
+    <meta property="og:title" content="{{ content|get_seo_name }}">
+    <meta property="og:description" content="{{content|get_seo_desc }}">
+    <meta property="og:image" content="{{ content|get_seo_image }}">
+
+    <meta name="twitter:title" content="{{  content|get_seo_name }}">
+    <meta name="twitter:description" content="{{ content|get_seo_desc}}">
+    <meta name="twitter:image" content="{{ content|get_seo_image }}">
+
+    <meta itemprop="name" content="{{ content|get_seo_name  }}">
+    <meta itemprop="description" content="{{ content|get_seo_desc }}">
+    <meta itemprop="image" content="{{ content|get_seo_image }}">
+
+    <meta name="ABSTRACT" content="{{ content|get_seo_name }}"/>
+    <meta name="DESCRIPTION" content="{{ content|get_seo_desc }}"/>
+
+
 {% endblock %}
 
 
@@ -18,13 +39,22 @@
         <div class="body">
             <div class="block3">
                 <div class="steps">
-                    <h2 class="step1">Bản tin dược liệu</h2>
+                    <h2 class="step1"><a href="{% if content.category.id == 2 %}{% url 'frontend:news' %}{% else %}{% url 'frontend:info' %}{% endif %}">{{ content.category.name }}</a></h2>
                 </div>
                 <div class="content">
                     <article class="detailContent news">
                         <div class="leftContent">
-                           {{ medicine.content|safe|escape }}
+                           {{ content.content|safe|escape }}
+
+                            <div class="tags">
+                                <span>Từ khóa: </span>
+                                {% for tag in content.tags.all %}
+                                    <a href="{% url 'frontend:tag' tag.slug %}" title="{{ tag.name }}">{{ tag.name }}</a>
+                                {% endfor %}
+                            </div>
+
                         </div>
+
                         <div class="rightContent">
                             <div class="relatedTrees">
                                 <h3 class="rs globalTitle">Có thể bạn quan tâm</h3>
@@ -46,7 +76,7 @@
                         <div class="content">
                             {% for obj in latest_objects %}
 
-                                <a href="{% url 'frontend:post_detail' obj.slug %}" class="item item{{ forloop.counter }}" title="{{ obj.name }}"  style="background: url('{{ obj.image.url }}') center center no-repeat;">
+                                <a href="{% url 'frontend:content_detail' obj.slug %}" class="item item{{ forloop.counter }}" title="{{ obj.name }}"  style="background: url('{{ obj.image.url }}') center center no-repeat;">
                                     {% thumbnail obj.image "298x200" crop="center" as im %}
                                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                                     {% endthumbnail %}

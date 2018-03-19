@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'taggit',
     'constance',
     'constance.backends.database',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -152,6 +154,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "files")
 
 DEFAULT_CHARSET='utf-8'
 
+LOG_FILE = os.path.join(BASE_DIR, 'debug.log')
+
 
 EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
     'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff', '.JPG','.JPEG','.GIF','.PNG','.tif','.tiff'],
@@ -181,15 +185,110 @@ CONSTANCE_CONFIG = {
     #'MY_SELECT_KEY': ('yes', 'select yes or no', 'yes_no_null_select'),
     'LOGO_IMAGE': ('default.png', _('Site logo'), 'image_field'),
     'INDEX_TITLE': ('Trang chủ | Tra cứu dược liệu', _('Index title'), str),
-    'RECOMMEND_TITLE': ('Giới thiệu | Tra cứu dược liệu', _('Recommend title'), str),
+    'INDEX_DESC': ('Trang chủ | Tra cứu dược liệu', _('Index Description'), str),
+    'INDEX_KEYWORDS': ('Trang chủ | Tra cứu dược liệu', _('Index Keywords'), str),
+
+
     'EXPERT_TITLE': ('Chuyên gia | Tra cứu dược liệu', _('Expert title'), str),
-    'RECOMMEND_CONTENT': ('', _('Recommend Content'), 'ck_editor'),
+    'EXPERT_DESC': ('Chuyên gia | Tra cứu dược liệu', _('Expert Description'), str),
+    'EXPERT_KEYWORDS': ('Chuyên gia | Tra cứu dược liệu', _('Expert keywords'), str),
     'EXPERT_CONTENT': ('', _('Expert Content'), 'ck_editor'),
+    'EXPERT_IMAGE': ('default.png', _('Expert page image'), 'image_field'),
+
+    'RECOMMEND_TITLE': ('Giới thiệu | Tra cứu dược liệu', _('Recommend title'), str),
+    'RECOMMEND_DESC': ('Giới thiệu | Tra cứu dược liệu', _('Recommend Description'), str),
+    'RECOMMEND_KEYWORDS': ('Giới thiệu | Tra cứu dược liệu', _('Recommend keywords'), str),
+    'RECOMMEND_CONTENT': ('', _('Recommend Content'), 'ck_editor'),
+    'RECOMMEND_IMAGE': ('default.png', _('Recommend page image'), 'image_field'),
+
+
+
+    'FOOTER_TEXT': ('', _('Footer Text'), str),
+    'HEADER_HOTLINE': ('', _('Header Hotline'), str),
+    'HEADER_EMAIL': ('', _('Header Email'), str),
+    'FB_ID': ('188252524956805', _('Facebook ID'), str),
+    'SITE_NAME': (' Tra cứu dược liệu', _('Site name'), str),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
-    'General Options': ('LOGO_IMAGE', 'INDEX_TITLE', ),
-    'RECOMMEND Options': ('RECOMMEND_CONTENT', 'RECOMMEND_TITLE', ),
-    'EXPERT Options': ('EXPERT_CONTENT', 'EXPERT_TITLE', ),
+    'General Options': ('LOGO_IMAGE', 'INDEX_TITLE', 'INDEX_DESC', 'INDEX_KEYWORDS',),
+    'RECOMMEND Options': ('RECOMMEND_CONTENT', 'RECOMMEND_TITLE', 'RECOMMEND_DESC', 'RECOMMEND_KEYWORDS', 'RECOMMEND_IMAGE'),
+    'EXPERT Options': ('EXPERT_CONTENT', 'EXPERT_TITLE', 'EXPERT_DESC', 'EXPERT_KEYWORDS', 'EXPERT_IMAGE'),
+    'Header and Footer': ('FOOTER_TEXT', 'HEADER_HOTLINE', 'HEADER_EMAIL'),
+    'Social': ('FB_ID', 'SITE_NAME',),
     #'Theme Options': ('THEME',),
+}
+#relative path to MEDIA
+CKEDITOR_UPLOAD_PATH = "uploads/"
+#All uploaded files are slugified by default. To disable this feature
+CKEDITOR_UPLOAD_SLUGIFY_FILENAME=False
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+#CKEDITOR_BROWSE_SHOW_DIRS=True
+#CKEDITOR_RESTRICT_BY_DATE=True
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'moono',
+        # 'skin': 'office2013',
+        'width': '100%',
+        'resize_dir' : 'both',
+        'toolbar_Basic': [
+            ['Source', '-', 'Bold', 'Italic']
+        ],
+        'toolbar_YourCustomToolbarConfig': [
+            {'name': 'document', 'items': ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates']},
+            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+            {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll']},
+            {'name': 'forms',
+             'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+                       'HiddenField']},
+            '/',
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'paragraph',
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
+                       'Language']},
+            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+            {'name': 'insert',
+             'items': ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
+            '/',
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+            {'name': 'tools', 'items': ['Maximize', 'ShowBlocks']},
+            {'name': 'about', 'items': ['About']},
+            '/',  # put this to force next toolbar on new line
+            {'name': 'yourcustomtools', 'items': [
+                # put the name of your editor.ui.addButton here
+                'Preview',
+                'Maximize',
+
+            ]},
+        ],
+        'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
+        # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
+        # 'height': 291,
+        # 'width': '100%',
+        # 'filebrowserWindowHeight': 725,
+        # 'filebrowserWindowWidth': 940,
+        # 'toolbarCanCollapse': True,
+        # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+        'tabSpaces': 4,
+        'extraPlugins': ','.join([
+            'uploadimage', # the upload image feature
+            # your extra plugins here
+            'div',
+            'autolink',
+            'autoembed',
+            'embedsemantic',
+            'autogrow',
+            # 'devtools',
+            'widget',
+            'lineutils',
+            'clipboard',
+            'dialog',
+            'dialogui',
+            'elementspath',
+            'resize'
+        ]),
+    }
 }

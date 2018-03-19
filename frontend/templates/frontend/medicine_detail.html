@@ -3,8 +3,30 @@
 
 {% block title %}
     {{ block.super }}
-    {{ medicine.name }}
+    {{ content.name }}
 {% endblock %}
+
+{% block meta %}
+    {{ block.super }}
+
+    <meta property="og:title" content="{{ content|get_seo_name }}">
+    <meta property="og:description" content="{{content|get_seo_desc }}">
+    <meta property="og:image" content="{{ content|get_seo_image }}">
+
+    <meta name="twitter:title" content="{{  content|get_seo_name }}">
+    <meta name="twitter:description" content="{{ content|get_seo_desc}}">
+    <meta name="twitter:image" content="{{ content|get_seo_image }}">
+
+    <meta itemprop="name" content="{{ content|get_seo_name  }}">
+    <meta itemprop="description" content="{{ content|get_seo_desc }}">
+    <meta itemprop="image" content="{{ content|get_seo_image }}">
+
+    <meta name="ABSTRACT" content="{{ content|get_seo_name }}"/>
+    <meta name="DESCRIPTION" content="{{ content|get_seo_desc }}"/>
+
+
+{% endblock %}
+
 
 {% block content %}
     <div class="wrapper wrapper-sub3 wrapper-sub">
@@ -17,9 +39,9 @@
         <div class="body">
             <div class="block3">
                 <div class="steps">
-                    <h2 class="step1">TRA CỨU DƯỢC LIỆU</h2>
+                    <h2 class="step1"><a href="{% url 'frontend:medicine_list' %}">TRA CỨU DƯỢC LIỆU</a></h2>
                     <span class="arrow"></span>
-                    <h3 class="step2">{{ medicine.name }}</h3>
+                    <h3 class="step2">{{ content.name }}</h3>
                 </div>
                 <div class="content">
                     <div class="block7">
@@ -27,10 +49,10 @@
 
                             {% with 'galery_image1 galery_image2 galery_image3' as list %}
                                 {% for i in list.split %}
-                                    {% if medicine|getattribute:i %}
-                                        <a href="javascript:void(0)" title="{{ medicine.name }}" class="{% if forloop.counter == 1 %}active {% endif %} img-thumbs" data-img=".bigImg{{ forloop.counter }}" data-infos=".info1">
+                                    {% if content|getattribute:i %}
+                                        <a href="javascript:void(0)" title="{{ content.name }}" class="{% if forloop.counter == 1 %}active {% endif %} img-thumbs" data-img=".bigImg{{ forloop.counter }}" data-infos=".info1">
 
-                                            {% thumbnail medicine|getattribute:i "109x82" crop="center" as im %}
+                                            {% thumbnail content|getattribute:i "109x82" crop="center" as im %}
                                                 <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
                                             {% endthumbnail %}
 
@@ -44,9 +66,9 @@
                         <div class="big-imgs">
                             {% with 'galery_image1 galery_image2 galery_image3' as list %}
                                 {% for i in list.split %}
-                                    {% if medicine|getattribute:i %}
-                                        <a href="javascript:void(0)" title="{{ medicine.name }}" class="{% if forloop.counter == 1 %}active {% endif %}bigImg bigImg{{ forloop.counter }}">
-                                            {% thumbnail medicine|getattribute:i "356x266" crop="center" as im %}
+                                    {% if content|getattribute:i %}
+                                        <a href="javascript:void(0)" title="{{ content.name }}" class="{% if forloop.counter == 1 %}active {% endif %}bigImg bigImg{{ forloop.counter }}">
+                                            {% thumbnail content|getattribute:i "356x266" crop="center" as im %}
                                                 <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
                                             {% endthumbnail %}
                                         </a>
@@ -56,11 +78,11 @@
                         </div>
                         <div class="img-infos">
                             <div class="info info1 active">
-                                <span class="title">{{ medicine.name }}</span>
-                                <span>Tên tiếng việt: {{ medicine.name }}</span>
-                                <span>Tên khoa học: {{ medicine.s_name }}</span>
-                                <span>Tên khác: {{ medicine.other_name }}</span>
-                                <span>Họ: {{ medicine.last_name }}</span>
+                                <span class="title">{{ content.name }}</span>
+                                <span>Tên tiếng việt: {{ content.name }}</span>
+                                <span>Tên khoa học: {{ content.s_name|display_not_none }}</span>
+                                <span>Công dụng: {{ content.other_name|display_not_none }}</span>
+                                <span>Họ: {{ content.last_name|display_not_none }}</span>
                             </div>
                         </div>
                     </div>
@@ -68,11 +90,11 @@
                         <div class="detailDescriptions">
                             <span class="captain"><i>Mô tả chi tiết</i></span>
                             <div class="detailDesContent">
-                                {{ medicine.content |safe|escape }}
+                                {{ content.content |safe|escape }}
                             </div>
                             <div class="tags">
                                 <span>Từ khóa: </span>
-                                {% for tag in medicine.tags.all %}
+                                {% for tag in content.tags.all %}
                                     <a href="{% url 'frontend:tag' tag.slug %}" title="{{ tag.name }}">{{ tag.name }}</a>
                                 {% endfor %}
                             </div>
@@ -80,16 +102,16 @@
                     </div>
                     <div class="rightContent">
                         {% verbatim %}
-                        <div class="danhmuc_caythuoc" data-ng-app="myApp" data-ng-controller="SearchController">
+                        <div class="danhmuc_caythuoc" data-ng-app="medicineApp" data-ng-controller="SearchMedicineController">
                             <h3 class="rs globalTitle">TRA CỨU DƯỢC LIỆU</h3>
                             <div class="content">
                                 <input type="text" data-ng-model="searchMedicine" id="search_caythuoc" placeholder="Tìm kiếm cây thuốc ..."/>
                                 <select name="" id="choose_caythuoc" multiple>
-                                    <option value="" data-ng-click="redirect(medicine)" data-ng-repeat="medicine in medicineList | filter: searchMedicine">{{ medicine.name }}</option>
+                                    <option value="" data-ng-click="redirect(content)" data-ng-repeat="content in medicineList | filter: searchMedicine">{{ content.fields.name }}</option>
                                 </select>
                                 <div class="choose_caythuoc">
                                     <ul>
-                                        <li data-ng-click="redirect(medicine)" data-ng-repeat="medicine in medicineList | filter: searchMedicine">{{ medicine.name }}</li>
+                                        <li data-ng-click="redirect(content)" data-ng-repeat="content in medicineList | filter: searchMedicine">{{ content.fields.name }}</li>
                                     </ul>
                                 </div>
                             </div>

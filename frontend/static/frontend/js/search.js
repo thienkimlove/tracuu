@@ -1,38 +1,40 @@
-var app = angular.module("myApp", []);
-app.controller("SearchController", function ($scope, $http, $window) {
+var app1 = angular.module("medicineApp", []);
+app1.controller("SearchMedicineController", function ($scope, $http, $window) {
+
 
     $scope.medicineList = [{"title" : "Chọn cây thuốc..."}];
-    $scope.SpecialList = [{"title" : "Chọn cây thuốc..."}];
-    $scope.diseaseList = [{"title" : "Chọn loại bệnh..."}];
+
 
     $http.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
+
     $http.get('/api/medicine').
-    success(function(data, status, headers, config) {
-
-        for (var i = 0; i < data.length; i ++) {
-            $scope.medicineList.push(data[i].fields);
-        }
-    }).
-    error(function(data, status, headers, config) {
-        // log error
+    success(function(data) {
+        $scope.medicineList = data;
     });
 
-    $http.get('/api/special_medicine').
-    success(function(data, status, headers, config) {
 
-        for (var i = 0; i < data.length; i ++) {
-            $scope.SpecialList.push(data[i].fields);
-        }
-    }).
-    error(function(data, status, headers, config) {
-        // log error
-    });
-
-    $scope.redirect = function(obj) {
-        $window.location.href = '/duoc-lieu-' + obj.slug + '.html';
-    }
-
-    $scope.redirectSpecial = function(obj) {
-        $window.location.href = '/danh-luc-' + obj.slug + '.html';
+    $scope.redirect= function(obj) {
+        $window.location.href = '/' + obj.fields.slug + '.html';
     }
 });
+
+var app2 = angular.module("specialApp", []);
+app2.controller("SearchSpecialController", function ($scope, $http, $window) {
+
+
+    $scope.specialList = [{"title" : "Chọn danh lục..."}];
+
+
+    $http.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
+
+    $http.get('/api/special_medicine').
+    success(function(data) {
+        $scope.specialList = data;
+    });
+
+
+    $scope.redirect= function(obj) {
+        $window.location.href = '/' + obj.fields.slug + '.html';
+    }
+});
+

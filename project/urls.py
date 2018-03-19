@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^select2/', include('django_select2.urls')),
     url(r'^admin/filebrowser/', site.urls),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     path('admin/', admin.site.urls),
     path('core/', include('core.urls')),
     url(r'^', include('frontend.urls')),

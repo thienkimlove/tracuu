@@ -3,7 +3,28 @@
 
 {% block title %}
     {{ block.super }}
-    {{ drug.name }}
+    {{ content.name }}
+{% endblock %}
+
+{% block meta %}
+    {{ block.super }}
+
+    <meta property="og:title" content="{{ content|get_seo_name }}">
+    <meta property="og:description" content="{{content|get_seo_desc }}">
+    <meta property="og:image" content="{{ content|get_seo_image }}">
+
+    <meta name="twitter:title" content="{{  content|get_seo_name }}">
+    <meta name="twitter:description" content="{{ content|get_seo_desc}}">
+    <meta name="twitter:image" content="{{ content|get_seo_image }}">
+
+    <meta itemprop="name" content="{{ content|get_seo_name  }}">
+    <meta itemprop="description" content="{{ content|get_seo_desc }}">
+    <meta itemprop="image" content="{{ content|get_seo_image }}">
+
+    <meta name="ABSTRACT" content="{{ content|get_seo_name }}"/>
+    <meta name="DESCRIPTION" content="{{ content|get_seo_desc }}"/>
+
+
 {% endblock %}
 
 {% block content %}
@@ -17,42 +38,42 @@
         <div class="body">
             <div class="block3">
                 <div class="steps">
-                    <h2 class="step1">TRA CỨU THEO BÀI THUỐC</h2>
+                    <h2 class="step1"><a href="{% url 'frontend:drug_list' %}">TRA CỨU THEO BÀI THUỐC</a></h2>
                     <span class="arrow"></span>
-                    <h3 class="step2">{{ drug.name }}</h3>
+                    <h3 class="step2">{{ content.name }}</h3>
                 </div>
                 <div class="content">
                     <div class="leftContent">
-                        {{ drug.content|safe|escape }}
+                        {{ content.content|safe|escape }}
                         <h3 class="tabTitle">Thành phần</h3>
                         <div class="tabContent tabIngredient">
-                            {{ drug.thanhphan }}
+                            {{ content.thanhphan|safe|escape }}
                         </div>
                         <h3 class="tabTitle">Dạng bào chế</h3>
                         <div class="tabContent tabDosageForms">
-                            {{ drug.dangbaoche }}
+                            {{ content.dangbaoche|safe|escape }}
                         </div>
                         <h3 class="tabTitle">Chỉ định</h3>
                         <div class="tabContent tabIndication">
-                            {{ drug.chidinh }}
+                            {{ content.chidinh|safe|escape }}
                         </div>
                         <h3 class="tabTitle">Liều dùng</h3>
                         <div class="tabContent tabDosage">
-                            {{ drug.lieudung }}
+                            {{ content.lieudung|safe|escape }}
                         </div>
                     </div>
                     <div class="rightContent">
                         {% verbatim %}
-                        <div class="danhmuc_caythuoc" data-ng-app="myApp" data-ng-controller="SearchController">
+                        <div class="danhmuc_caythuoc" data-ng-app="medicineApp" data-ng-controller="SearchMedicineController">
                             <h3 class="rs globalTitle">TRA CỨU DƯỢC LIỆU</h3>
                             <div class="content">
                                 <input type="text" data-ng-model="searchMedicine" id="search_caythuoc" placeholder="Tìm kiếm cây thuốc ..."/>
                                 <select name="" id="choose_caythuoc" multiple>
-                                    <option value="" data-ng-click="redirect(medicine)" data-ng-repeat="medicine in medicineList | filter: searchMedicine">{{ medicine.name }}</option>
+                                    <option value="" data-ng-click="redirect(medicine)" data-ng-repeat="medicine in medicineList | filter: searchMedicine">{{ medicine.fields.name }}</option>
                                 </select>
                                 <div class="choose_caythuoc">
                                     <ul>
-                                        <li data-ng-click="redirect(medicine)" data-ng-repeat="medicine in medicineList | filter: searchMedicine">{{ medicine.name }}</li>
+                                        <li data-ng-click="redirect(medicine)" data-ng-repeat="medicine in medicineList | filter: searchMedicine">{{ medicine.fields.name }}</li>
                                     </ul>
                                 </div>
                             </div>
