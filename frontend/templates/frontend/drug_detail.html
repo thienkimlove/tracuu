@@ -38,7 +38,7 @@
         <div class="body">
             <div class="block3">
                 <div class="steps">
-                    <h2 class="step1"><a href="{% url 'frontend:drug_list' %}">TRA CỨU THEO BÀI THUỐC</a></h2>
+                    <h2 class="step1"><a href="{% url 'frontend:category' content.category.slug %}">{{ content.category.name|upper }}</a></h2>
                     <span class="arrow"></span>
                     <h3 class="step2">{{ content.name }}</h3>
                 </div>
@@ -83,8 +83,7 @@
                             <h3 class="rs globalTitle">Có thể bạn quan tâm</h3>
                             <div class="content">
                                 {% for obj in related_objects %}
-
-                                    <a href="{% url obj|get_url_name obj.slug %}" class="item item{{ forloop.counter }}" title="{{ obj.name }}">
+                                    <a href="{% url 'frontend:content_detail' obj.slug %}" class="item item{{ forloop.counter }}" title="{{ obj.name }}">
                                         {% thumbnail obj.image "270x182" crop="center" as im %}
                                             <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                                         {% endthumbnail %}

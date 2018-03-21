@@ -5,7 +5,9 @@ from urllib.parse import parse_qs
 from constance import config
 from django import template
 from django.conf import settings
+from django.db.models import Q
 
+from core.models import Category
 
 register = template.Library()
 numeric_test = re.compile("^\d+$")
@@ -42,11 +44,6 @@ def youtube(value, args):
 
 
 @register.filter()
-def get_url_name(value):
-    #return 'frontend:'+value.__class__.__name__.lower()+'_detail'
-    return 'frontend:content_detail'
-
-@register.filter()
 def get_seo_name(content):
     if hasattr(content, 'seo_name') and content.seo_name:
         return content.seo_name
@@ -81,3 +78,21 @@ def random_number(length=4):
     For a length of 4 it will be between 1000 and 9999.
     """
     return randint(10**(length-1), (10**(length)-1))
+
+@register.simple_tag
+def header_categories():
+    """
+    Create a random integer with given length.
+    For a length of 3 it will be between 100 and 999.
+    For a length of 4 it will be between 1000 and 9999.
+    """
+    return Category.objects.filter(Q(status=True) and Q(parent=None)).order_by("display_order")
+
+@register.simple_tag
+def footer_categories():
+    """
+    Create a random integer with given length.
+    For a length of 3 it will be between 100 and 999.
+    For a length of 4 it will be between 1000 and 9999.
+    """
+    return Category.objects.filter(Q(status=True) and ~Q(parent=None)).order_by("display_order")

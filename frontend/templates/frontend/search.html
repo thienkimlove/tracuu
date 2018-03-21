@@ -30,21 +30,23 @@
                     <h3 class="step2">{{ request.GET.search_value }}</h3>
                 </div>
                 <div class="content">
-                    {% for medicine in medicines %}
+                    {% for post in posts %}
                         <div class="item item{{ forloop.counter }}">
-                            <div class="left" style="background: url('{{ medicine.image.url }}') center center no-repeat;">
-                                {% thumbnail medicine.image "288x193" crop="center" as im %}
+                            <div class="left" style="background: url('{{ post.image.url }}') center center no-repeat;">
+                                {% thumbnail post.image "288x193" crop="center" as im %}
                                     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
                                 {% endthumbnail %}
                             </div>
                             <div class="right">
-                                <a href="{% url 'frontend:content_detail' medicine.slug %}" class="title" title="{{ medicine.name }}">{{ medicine.name }}</a>
-                                <div class="info">
-                                    <span>Tên tiếng việt: {{ medicine.name }}</span>
-                                    <span>Tên khoa học: {{ medicine.s_name }}</span>
-                                    <span>Tên khác: {{ medicine.other_name }}</span>
-                                    <span>Họ: {{ medicine.last_name }}</span>
-                                </div>
+                                <a href="{% url 'frontend:content_detail' post.slug %}" class="title" title="{{ post.name }}">{{ post.name }}</a>
+                                {% if post.category.template is not 'post' %}
+                                    <div class="info">
+                                        <span>Tên tiếng việt: {{ post.name }}</span>
+                                        <span>Tên khoa học: {{ post.s_name }}</span>
+                                        <span>Họ: {{ post.last_name }}</span>
+                                        <span>Công dụng: {{ post.other_name }}</span>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     {% endfor %}

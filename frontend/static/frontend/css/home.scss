@@ -291,9 +291,13 @@ $hoverColor: #75c325;
            justify-content: space-between;
            -webkit-flex-flow: row wrap;
            flex-flow: row wrap;
-           input{
+           .easy-autocomplete{
+             width: 90% !important;
              height: 84%;
-             width: 90%;
+           }
+           input{
+             height: 100%;
+             width: 100%;
              border: none;
              padding-left: 2%;
            }
@@ -346,6 +350,48 @@ $hoverColor: #75c325;
          display: block;
          width: 48%;
          margin-bottom: 4%;
+         position: relative;
+         &:before{
+           width: 100%;
+           color: #ffffff;
+           text-transform: uppercase;
+           font-weight: bold;
+           font-size: 2.5vw;
+           text-align: center;
+           position: absolute;
+           top: 50%;
+           height: 40px;
+           line-height: 40px;
+           margin-top: -20px;
+           @media (min-width: 1024px) {
+             font-size: 16px;
+           }
+         }
+         &:hover{
+           &:before{
+             color: #FFC107;
+           }
+         }
+         &:nth-child(1){
+           &:before{
+             content: 'Tra cứu dược liệu';
+           }
+         }
+         &:nth-child(2){
+           &:before{
+             content: 'Tra cứu danh lục';
+           }
+         }
+         &:nth-child(3){
+           &:before{
+             content: 'Tra cứu theo bệnh';
+           }
+         }
+         &:nth-child(4){
+           &:before{
+             content: 'Tra cứu bài thuốc';
+           }
+         }
        }
      }
      .rightBlock{
@@ -450,7 +496,7 @@ $hoverColor: #75c325;
            white-space: nowrap;
          }
          &:hover{
-             color: $hoverColor;
+             color: #FF5722;
            }
        }
        _:-ms-lang(x), a {
@@ -470,6 +516,9 @@ $hoverColor: #75c325;
         @media (max-width: 750px) {
           font-size: 3.5vmin;
         }
+        a{
+          color: #005c2a;
+        }
       }
       span{
         width: 0;
@@ -485,6 +534,12 @@ $hoverColor: #75c325;
     }
      .content{
        margin-top: 4%;
+       .title{
+         font-size: 30px;
+         text-align: center;
+         margin-bottom: 20px;
+         color: #005b2b;
+       }
        .item{
          @extend %disFlex;
          flex-flow: row wrap;
@@ -1065,9 +1120,9 @@ $hoverColor: #75c325;
           &.title{
             color: $globalColor;
             text-transform: uppercase;
-            font-size: 42px;
+            font-size: 32px;
             @media (max-width: 500px) {
-              font-size: 8vw;
+              font-size: 6vw;
             }
           }
         }
@@ -1341,9 +1396,28 @@ $hoverColor: #75c325;
     .body{
       .block2{
         .content{
+          -webkit-justify-content: flex-start;
+          justify-content: flex-start;
           a{
             width: 22%;
+            margin: 0 2%;
             height: 177px;
+            border: none;
+            margin-bottom: 65px;
+            span{
+              bottom: -35px;
+              height: 70px;
+              border: 1px solid #547b4d;
+              overflow: visible;
+              text-overflow: inherit;
+              white-space: inherit
+            }
+            &:nth-child(4n+5),&:nth-child(1){
+              margin-left: 0;
+            }
+            &:nth-child(4n+0){
+              margin-right: 0;
+            }
           }
         }
       }
@@ -1637,6 +1711,19 @@ $hoverColor: #75c325;
           .content {
             a {
               width: 31%;
+              margin: 0 1.7% 65px;
+              &:nth-child(4n+5){
+                margin-left: 1.7%;
+              }
+              &:nth-child(4n+0){
+                margin-right: 1.7%;
+              }
+              &:nth-child(3n+1){
+                margin-left: 0;
+              }
+              &:nth-child(3n+0){
+                margin-right: 0;
+              }
             }
           }
         }
@@ -1790,8 +1877,8 @@ $hoverColor: #75c325;
           width: 90%;
           .form-header{
             height: 40px;
-            input{
-              width: 90%;
+            .easy-autocomplete{
+              width: 90% !important;
             }
             button{
               width: 7%;
@@ -1873,6 +1960,25 @@ $hoverColor: #75c325;
           .content{
             a{
               width: 48%;
+              margin: 0 1.7% 65px;
+              &:nth-child(4n+5){
+                margin-left: 1.7%;
+              }
+              &:nth-child(4n+0){
+                margin-right: 1.7%;
+              }
+              &:nth-child(3n+1){
+                margin-left: 1.7%;
+              }
+              &:nth-child(3n+0){
+                margin-right: 1.7%;
+              }
+              &:nth-child(2n+1){
+                margin-left: 0;
+              }
+              &:nth-child(2n+0){
+                margin-right: 0;
+              }
             }
           }
         }
@@ -1974,6 +2080,21 @@ $hoverColor: #75c325;
               i{
                 font-size: 2.6vw;
               }
+            }
+          }
+        }
+      }
+    }
+  }
+  @media (max-width: 380px) {
+    &.wrapper-sub{
+      .body{
+        .block2{
+          .content{
+            a{
+              width: 100%;
+              height: 232px;
+              margin: 0 auto 65px !important;
             }
           }
         }

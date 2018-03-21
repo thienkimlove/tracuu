@@ -38,7 +38,7 @@
         <div class="body">
             <div class="block3">
                 <div class="steps">
-                    <h2 class="step1"><a href="{% url 'frontend:disease_list' %}">TRA CỨU THEO BỆNH</a></h2>
+                    <h2 class="step1"><a href="{% url 'frontend:category' content.category.slug %}">{{ content.category.name|upper }}</a></h2>
                     <span class="arrow"></span>
                     <h3 class="step2">{{ content.name }}</h3>
                 </div>
@@ -49,18 +49,19 @@
                     <div class="relateMedicines">
                         <h3 class="globalTitle">Những dược liệu hỗ trợ chữa {{ content.name }}</h3>
                         <div class="content">
-                            {% for medicine in  medicines %}
-                            <a href="{% url 'frontend:content_detail' medicine.slug %}" class="item item{{ forloop.counter }}" title="{{ medicine.name }}" style="background: url('{{ medicine.image.url }}') center center no-repeat;">
+                            {% for post in  content.child_disease.all %}
+                                <a href="{% url 'frontend:content_detail' post.slug %}" class="item item{{ forloop.counter }}" title="{{ post.name }}" style="background: url('{{ post.image.url }}') center center no-repeat;">
 
-                                {% thumbnail medicine.image "231x200" crop="center" as im %}
-                                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                                {% endthumbnail %}
+                                    {% thumbnail post.image "231x200" crop="center" as im %}
+                                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                    {% endthumbnail %}
 
-                                <span class="tree-name">{{ medicine.name }}</span>
-                            </a>
+                                    <span class="tree-name">{{ post.name }}</span>
+                                </a>
                             {% endfor %}
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-{% load staticfiles i18n %}
+{% load staticfiles i18n core_helper %}
 <div class="top">
     <span class="textL">Hotline: <a href="tel:{{ config.HEADER_HOTLINE }}" title="19001111">{{ config.HEADER_HOTLINE }}</a></span>|<span class="textR"><a href="mailto:{{ config.HEADER_EMAIL }}"  title="{{ config.HEADER_EMAIL }}">{{ config.HEADER_EMAIL }}</a></span>
 </div>
@@ -11,22 +11,21 @@
         <li>
             <a href="{% url 'frontend:recommend' %}"  title="Giới thiệu">Giới thiệu</a>
         </li>
-        <li>
-            <a href="javascript:void(0)"  title="Danh sách dược liệu">Danh sách dược liệu</a>
-            <ul class="subMenu">
-                <li><a href="{% url 'frontend:medicine_list' %}" title="Tra cứu dược liệu">Tra cứu dược liệu</a></li>
-                <li><a href="{% url 'frontend:special_list' %}" title="Tra cứu theo danh lục">Tra cứu danh lục</a></li>
-                <li><a href="{% url 'frontend:disease_list' %}" title="Tra cứu theo bệnh">Tra cứu theo bệnh</a></li>
-                <li><a href="{% url 'frontend:drug_list' %}" title="Tra cứu theo bài thuốc">Tra cứu bài thuốc</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="javascript:void(0)" title="Tin tức">Tin tức</a>
-            <ul class="subMenu">
-                <li><a href="{% url 'frontend:news' %}" title="Bản tin dược liệu">Bản tin dược liệu</a></li>
-                <li><a href="{%  url 'frontend:info' %}" title="Thông tin khoa học">Thông tin khoa học</a></li>
-            </ul>
-        </li>
+
+        {% header_categories as header_categories %}
+        {% for header_cate in header_categories %}
+            <li>
+                <a href="javascript:void(0)" title="{{ header_cate.name }}">{{ header_cate.name }}</a>
+
+                <ul class="subMenu">
+                    {% for child_cate in header_cate.children.all %}
+                        <li>
+                            <a href="{% url 'frontend:category' child_cate.slug %}"
+                               title="{{ child_cate.name }}">{{ child_cate.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
         <li>
             <a href="{%  url 'frontend:expert' %}" title="Chuyên gia dược liệu">Chuyên gia dược liệu</a>
         </li>

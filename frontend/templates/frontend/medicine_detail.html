@@ -39,7 +39,7 @@
         <div class="body">
             <div class="block3">
                 <div class="steps">
-                    <h2 class="step1"><a href="{% url 'frontend:medicine_list' %}">TRA CỨU DƯỢC LIỆU</a></h2>
+                    <h2 class="step1"><a href="{% url 'frontend:category' content.category.slug %}">{{ content.category.name|upper }}</a></h2>
                     <span class="arrow"></span>
                     <h3 class="step2">{{ content.name }}</h3>
                 </div>
@@ -79,10 +79,11 @@
                         <div class="img-infos">
                             <div class="info info1 active">
                                 <span class="title">{{ content.name }}</span>
-                                <span>Tên tiếng việt: {{ content.name }}</span>
+                                <span>Tên tiếng việt: {{ content.vi_name|display_not_none }}</span>
                                 <span>Tên khoa học: {{ content.s_name|display_not_none }}</span>
-                                <span>Công dụng: {{ content.other_name|display_not_none }}</span>
                                 <span>Họ: {{ content.last_name|display_not_none }}</span>
+                                <span>Công dụng: {{ content.other_name|display_not_none }}</span>
+
                             </div>
                         </div>
                     </div>
@@ -121,7 +122,7 @@
                             <h3 class="rs globalTitle">Có thể bạn quan tâm</h3>
                             <div class="content">
                                 {% for obj in related_objects %}
-                                <a href="{% url obj|get_url_name obj.slug %}" class="item item5" title="{{ obj.name }}">
+                                <a href="{% url 'frontend:content_detail' obj.slug %}" class="item item5" title="{{ obj.name }}">
                                     {% thumbnail obj.image "270x182" crop="center" as im %}
                                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                                     {% endthumbnail %}

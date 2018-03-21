@@ -4,19 +4,25 @@
         <div class="textLeft">
             <a href="{% url 'frontend:index' %}" title="Trang chủ">Trang chủ</a>
             <a href="{% url 'frontend:recommend' %}" title="Giới thiệu">Giới thiệu</a>
-            <a href="{% url 'frontend:news' %}" title="Bản tin dược liệu">Bản tin dược liệu</a>
-            <a href="{% url 'frontend:info' %}" title="Thông tin khoa học">Thông tin khoa học</a>
+            {% footer_categories as footer_categories %}
+            {% for footer_cate in footer_categories %}
+                {% if footer_cate.template == 'post' %}
+                    <a href="{% url 'frontend:category' footer_cate.slug %}" title="{{ footer_cate.name }}">{{ footer_cate.name }}</a>
+                {% endif %}
+            {% endfor %}
             <a href="{% url 'frontend:expert' %}" title="Chuyên gia dược liệu">Chuyên gia dược liệu</a>
         </div>
         <div class="textRight">
-            <a href="{% url 'frontend:medicine_list' %}"  title="Tra cứu dược liệu">Tra cứu dược liệu</a>
-            <a href="{% url 'frontend:special_list' %}"  title="Tra cứu danh mục">Tra cứu danh mục</a>
-            <a href="{% url 'frontend:disease_list' %}"  title="Tra cứu theo bệnh">Tra cứu theo bệnh</a>
-            <a href="{% url 'frontend:drug_list' %}"  title="Tra cứu bài thuốc">Tra cứu bài thuốc</a>
+            {% footer_categories as footer_categories %}
+            {% for footer_cate in footer_categories %}
+                {% if footer_cate.template != 'post' %}
+                    <a href="{% url 'frontend:category' footer_cate.slug %}" title="{{ footer_cate.name }}">{{ footer_cate.name }}</a>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
     <div class="right">
-        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fviemgan.com.vn&amp;tabs=timeline&amp;width=260&amp;height=150&amp;small_header=false&amp;adapt_container_width=false&amp;hide_cover=false&amp;show_facepile=false&amp;appId" width="260" height="150" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowtransparency="true"></iframe>
+        {{ config.FACEBOOK_BLOCK_FOOTER|safe|escape }}
         <div class="accessTurns">
             {% random_number as my_id %}
             <div class="top">{{ my_id }}</div>

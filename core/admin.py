@@ -29,7 +29,8 @@ class GeneralWithTagAdmin(admin.ModelAdmin):
 
     search_fields = ['name', ]
     list_filter = (
-        'status',
+       'category',
+       'status',
     )
 
     def get_queryset(self, request):
@@ -40,7 +41,7 @@ class GeneralWithTagAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'parent', 'created_at', 'status')
+    list_display = ('name', 'slug', 'template', 'parent', 'created_at', 'status')
     search_fields = ['name']
 
 admin.site.register(Category, CategoryAdmin)
@@ -59,36 +60,6 @@ class PostAdmin(ExportMixin, GeneralWithTagAdmin):
 
 admin.site.register(Post, PostAdmin)
 
-class MedicineAdmin(GeneralWithTagAdmin):
-    list_display = ('name', 'get_science_name', 'image_tag', 'views', 'tag_list', 'created_at', 'status')
-    form = MedicineForm
-    autocomplete_fields = ['disease']
-
-
-admin.site.register(Medicine, MedicineAdmin)
-
-
-class SpecialAdmin(GeneralWithTagAdmin):
-    list_display = ('name', 'get_science_name', 'image_tag', 'views', 'tag_list', 'created_at', 'status')
-    form = SpecialForm
-    autocomplete_fields = ['disease']
-
-
-admin.site.register(Special, SpecialAdmin)
-
-class DiseaseAdmin(GeneralWithTagAdmin):
-    list_display = ('name', 'get_science_name', 'image_tag', 'views', 'tag_list', 'created_at', 'status')
-    form = DiseaseForm
-
-
-admin.site.register(Disease, DiseaseAdmin)
-
-class DrugAdmin(GeneralWithTagAdmin):
-    list_display = ('name', 'image_tag', 'views',  'tag_list', 'created_at', 'status')
-    form = DrugForm
-
-
-admin.site.register(Drug, DrugAdmin)
 
 class ExpertAdmin(admin.ModelAdmin):
     list_display = ('name', 'image_tag', 'link', 'created_at', 'status')

@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '@v)bungn*8si*@g!th-y9ft-5jr*v0#9rrkt5@8%nyx(wqtkp='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 ALLOWED_HOSTS = ['*']
@@ -206,16 +206,20 @@ CONSTANCE_CONFIG = {
     'FOOTER_TEXT': ('', _('Footer Text'), str),
     'HEADER_HOTLINE': ('', _('Header Hotline'), str),
     'HEADER_EMAIL': ('', _('Header Email'), str),
+
     'FB_ID': ('188252524956805', _('Facebook ID'), str),
     'SITE_NAME': (' Tra cứu dược liệu', _('Site name'), str),
+
+    'FACEBOOK_BLOCK_FOOTER': ('', _('Facebook blog footer'), str),
+    'GOOGLE': ('', _('Google Analytic'), str),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
     'General Options': ('LOGO_IMAGE', 'INDEX_TITLE', 'INDEX_DESC', 'INDEX_KEYWORDS',),
     'RECOMMEND Options': ('RECOMMEND_CONTENT', 'RECOMMEND_TITLE', 'RECOMMEND_DESC', 'RECOMMEND_KEYWORDS', 'RECOMMEND_IMAGE'),
     'EXPERT Options': ('EXPERT_CONTENT', 'EXPERT_TITLE', 'EXPERT_DESC', 'EXPERT_KEYWORDS', 'EXPERT_IMAGE'),
-    'Header and Footer': ('FOOTER_TEXT', 'HEADER_HOTLINE', 'HEADER_EMAIL'),
-    'Social': ('FB_ID', 'SITE_NAME',),
+    'Header and Footer': ('FOOTER_TEXT', 'HEADER_HOTLINE', 'HEADER_EMAIL', 'FACEBOOK_BLOCK_FOOTER'),
+    'Social': ('FB_ID', 'SITE_NAME', 'GOOGLE'),
     #'Theme Options': ('THEME',),
 }
 #relative path to MEDIA
@@ -291,4 +295,25 @@ CKEDITOR_CONFIGS = {
             'resize'
         ]),
     }
+}
+
+LABELS =  {
+    'name': 'Tiêu đề',
+    's_name': 'Tên Khoa Học',
+    'other_name': 'Công dụng',
+    'category': 'Chuyên mục',
+    'last_name': 'Họ',
+    'seo_name': 'Tiêu đề dùng cho SEO',
+    'seo_desc': 'Mô tả dùng cho SEO',
+    'desc': 'Mô tả',
+    'content': 'Nội dung',
+    'tags': 'Các từ khóa',
+    'disease': 'Chọn cho Bệnh',
+    'thanhphan': 'Thành phần',
+    'dangbaoche': 'Dạng bào chế',
+    'lieudung': 'Liều dùng',
+    'chidinh': 'Chỉ định',
+    'status': 'Trạng thái',
+    'vi_name': 'Tên Tiếng Việt',
+    'template': 'Chọn layout cho chuyên mục',
 }

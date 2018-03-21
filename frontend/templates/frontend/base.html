@@ -1,4 +1,4 @@
-{% load staticfiles i18n %}
+{% load staticfiles core_helper i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,8 +22,8 @@
         <meta name="Googlebot" content="index,follow,archive" />
         <meta name="RATING" content="GENERAL"/>
 
-        <meta property="og:url" content="{{ request.get_full_path }}">
-        <meta name="twitter:url" content="{{ request.get_full_path }}">
+        <meta property="og:url" content="{{ request.build_absolute_uri }}">
+        <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
 
     {% endblock %}
 
@@ -93,5 +93,8 @@
         $("#search_value").easyAutocomplete(options);
     });
 </script>
+
+{{ config.GOOGLE|safe|escape }}
+
 </body>
 </html>

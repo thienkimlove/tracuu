@@ -70,9 +70,6 @@ class TimeStampedModel(models.Model):
         abstract = True
         ordering = ["-created_at"]
 
-    def class_name(self):
-        return self.__class__.__name__
-
     def _get_unique_slug(self):
         if hasattr(self, 'slug') and hasattr(self, 'name'):
             slug = vi_slug(self.name)
@@ -115,14 +112,25 @@ class TimeStampedModel(models.Model):
 
 
 class Category(TimeStampedModel):
+
+    TEMPLATE_CHOICES = (
+        ('post', _("Loại tin tức")),
+        ('medicine', _("Loại tra cứu dược liệu")),
+        ('special', _("Loại tra cứu danh lục")),
+        ('drug', _("Loại tra cứu bài thuốc")),
+        ('disease', _("Loại tra cứu bệnh"))
+    )
+
     name = GeneralCharField()
     slug = GeneralSlug()
     desc = models.TextField(blank=True, null=True)
     seo_name = GeneralCharField(blank=True, null=True)
     seo_desc = models.TextField(blank=True, null=True)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='children')
     status = models.BooleanField(default=True)
     banner_image = models.ImageField(blank=True, null=True)
+    template = GeneralCharField(choices=TEMPLATE_CHOICES, default='post')
+    display_order=models.PositiveSmallIntegerField(default=0)
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
@@ -134,6 +142,12 @@ class Category(TimeStampedModel):
 
 class Post(TimeStampedModel):
     name = GeneralCharField()
+
+    s_name = GeneralCharField(blank=True, null=True)
+    vi_name = GeneralCharField(blank=True, null=True)
+    other_name = GeneralCharField(blank=True, null=True)
+    last_name = GeneralCharField(blank=True, null=True)
+
     desc = models.TextField(blank=True, null=True)
     slug = GeneralSlug()
     seo_name = GeneralCharField(blank=True, null=True)
@@ -141,95 +155,27 @@ class Post(TimeStampedModel):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
     image = models.ImageField(blank=True, null=True)
-    content = models.TextField(blank=True, null=True)
-    views = models.IntegerField(default=0, editable=False)
-    tags = TaggableManager()
-    class Meta:
-        verbose_name = _('Post')
-        verbose_name_plural = _('Posts')
 
-class Disease(TimeStampedModel):
-    name = GeneralCharField()
-    s_name = GeneralCharField(blank=True, null=True)
-    desc = models.TextField(blank=True, null=True)
-    slug = GeneralSlug()
-    seo_name = GeneralCharField(blank=True, null=True)
-    seo_desc = models.TextField(blank=True, null=True)
-    status = models.BooleanField(default=True)
-    image = models.ImageField(blank=True, null=True)
-    content = models.TextField(blank=True, null=True)
-    views = models.IntegerField(default=0, editable=False)
-    tags = TaggableManager()
-    class Meta:
-        verbose_name = _('Disease')
-        verbose_name_plural = _('Diseases')
-
-class Medicine(TimeStampedModel):
-    name = GeneralCharField()
-    s_name = GeneralCharField(blank=True, null=True)
-    other_name = GeneralCharField(blank=True, null=True)
-    last_name = GeneralCharField(blank=True, null=True)
-    desc = models.TextField(blank=True, null=True)
-    slug = GeneralSlug()
-    seo_name = GeneralCharField(blank=True, null=True)
-    seo_desc = models.TextField(blank=True, null=True)
-    status = models.BooleanField(default=True)
-    image = models.ImageField(blank=True, null=True)
     galery_image1 = models.ImageField(blank=True, null=True)
     galery_image2 = models.ImageField(blank=True, null=True)
     galery_image3 = models.ImageField(blank=True, null=True)
-    content = models.TextField(blank=True, null=True)
-    views = models.IntegerField(default=0, editable=False)
-    tags = TaggableManager()
-    disease = models.ManyToManyField(Disease, blank=True)
-    class Meta:
-        verbose_name = _('Medicine')
-        verbose_name_plural = _('Medicines')
-
-class Special(TimeStampedModel):
-    name = GeneralCharField()
-    s_name = GeneralCharField(blank=True, null=True)
-    other_name = GeneralCharField(blank=True, null=True)
-    last_name = GeneralCharField(blank=True, null=True)
-    desc = models.TextField(blank=True, null=True)
-    slug = GeneralSlug()
-    seo_name = GeneralCharField(blank=True, null=True)
-    seo_desc = models.TextField(blank=True, null=True)
-    status = models.BooleanField(default=True)
-    image = models.ImageField(blank=True, null=True)
-    galery_image1 = models.ImageField(blank=True, null=True)
-    galery_image2 = models.ImageField(blank=True, null=True)
-    galery_image3 = models.ImageField(blank=True, null=True)
-    content = models.TextField(blank=True, null=True)
-    views = models.IntegerField(default=0, editable=False)
-    tags = TaggableManager()
-    disease = models.ManyToManyField(Disease, blank=True)
-    class Meta:
-        db_table = 'core_special'
-        verbose_name = _('Danh lục')
-        verbose_name_plural = _('Danh lục')
 
 
-class Drug(TimeStampedModel):
-    name = GeneralCharField()
-    s_name = GeneralCharField(blank=True, null=True)
-    desc = models.TextField(blank=True, null=True)
-    slug = GeneralSlug()
-    seo_name = GeneralCharField(blank=True, null=True)
-    seo_desc = models.TextField(blank=True, null=True)
-    status = models.BooleanField(default=True)
-    image = models.ImageField(blank=True, null=True)
     content = models.TextField(blank=True, null=True)
     thanhphan = models.TextField(blank=True, null=True)
     dangbaoche = models.TextField(blank=True, null=True)
     chidinh = models.TextField(blank=True, null=True)
     lieudung = models.TextField(blank=True, null=True)
-    
+
+
     views = models.IntegerField(default=0, editable=False)
     tags = TaggableManager()
+    disease = models.ManyToManyField("self", related_name='child_disease')
+
     class Meta:
-        verbose_name = _('Drug')
-        verbose_name_plural = _('Drugs')
+        verbose_name = _('Bài viết')
+        verbose_name_plural = _('Bài viết')
+
 
 class Expert(TimeStampedModel):
     name = GeneralCharField()

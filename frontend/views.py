@@ -1,23 +1,20 @@
 from django.core import serializers
+from django.core.paginator import Paginator
 from django.db.models import F, Q
 from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
 from taggit.models import Tag
-
 from core.models import *
-from django.apps import apps
-
-from project import settings
 
 
 def tasks_json(request, content):
     data = []
     if content == 'medicine':
-        data = Medicine.objects.filter(status=True).order_by('name')
+        data = Post.objects.filter(status=True).filter(category__template='medicine').order_by('name')
     if content == 'special_medicine':
-        data = Special.objects.filter(status=True).order_by('name')
+        data = Post.objects.filter(status=True).filter(category__template='special').order_by('name')
     if content == 'tag':
         data = Tag.objects.all()
         if request.GET.get('search_value'):
@@ -26,39 +23,32 @@ def tasks_json(request, content):
     return HttpResponse(data, content_type='application/json')
 
 def detail_view(request, slug):
+    if Post.objects.filter(slug=slug).exists():
+        content = Post.objects.filter(slug=slug).first()
+        Post.objects.filter(pk=content.id).update(views=F('views') + 1)
+        related_objects = content.tags.similar_objects()[0:2]
+        latest_objects = Post.objects.filter(status=True).filter(category=content.category).filter(~Q(id = content.id)).order_by("-created_at")[0:3]
+        return render(request, 'frontend/'+content.category.template+'_detail.html', { 'content' : content, 'related_objects' : related_objects, 'latest_objects' : latest_objects })
 
-    for name in ['Medicine', 'Special', 'Post', 'Drug', 'Disease']:
-        model_object = apps.get_model(app_label='core', model_name=name)
-        if model_object.objects.filter(slug=slug).exists():
-            content = model_object.objects.filter(slug=slug).first()
-            model_object.objects.filter(pk=content.id).update(views=F('views') + 1)
-            #handle1=open(settings.LOG_FILE,'r+')
-            #handle1.write(str(content.id))
-            #handle1.close()
-            related_objects = content.tags.similar_objects()[0:2]
-            if name=='Post':
-                if not related_objects:
-                    related_objects = model_object.objects.filter(status=True).filter(~Q(id = content.id)).order_by("-created_at")[0:2]
-                latest_objects = model_object.objects.filter(status=True).filter(~Q(id = content.id)).order_by("-created_at")[0:3]
-                return render(request, 'frontend/post_detail.html', { 'content' : content, 'related_objects' : related_objects, 'latest_objects' : latest_objects })
 
-            if name=='Drug':
-                if not related_objects:
-                    related_objects = model_object.objects.filter(status=True).filter(~Q(id = content.id)).order_by("-created_at")[0:2]
+def category_view(request, slug):
+    category = Category.objects.filter(slug__exact=slug).first()
+    if category:
 
-                return render(request, 'frontend/drug_detail.html', { 'content' : content, 'related_objects' : related_objects })
-            if name=='Disease':
-                medicines = Medicine.objects.filter(disease=content).order_by("-created_at")[0:5]
-                return render(request, 'frontend/disease_detail.html', { 'content' : content, 'medicines' : medicines })
+        q = request.GET.get('q')
 
-            if name=='Special':
-                if not related_objects:
-                    related_objects = model_object.objects.filter(status=True).filter(~Q(id = content.id)).order_by("-created_at")[0:2]
-                return render(request, 'frontend/special_detail.html', { 'content' : content, 'related_objects' : related_objects,  })
+        if q is not None:
+            posts = Post.objects.filter(Q(status=True) & Q(category=category)).filter(Q(name__istartswith=q) or Q(name__icontains=q)).order_by("-created_at")
+        else:
+            posts = Post.objects.filter(Q(status=True) & Q(category=category)).order_by("-created_at")
 
-            if name=='Medicine':
-                if not related_objects:
-                    related_objects = model_object.objects.filter(status=True).filter(~Q(id = content.id)).order_by("-created_at")[0:2]
+        if category.template is not 'disease':
+            paginator = Paginator(posts, 12)
+            page = request.GET.get('page')
+            posts = paginator.get_page(page)
 
-                return render(request, 'frontend/medicine_detail.html', { 'content' : content, 'related_objects' : related_objects, })
+        path = ''
+        path += "%s" % "&".join(["%s=%s" % (key, value) for (key, value) in request.GET.items() if not key=='page' ])
+        alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
+        return render(request, 'frontend/'+category.template+'_list.html', { 'category' : category, 'posts' : posts, 'path' : path, 'alphabets' : alphabets})
