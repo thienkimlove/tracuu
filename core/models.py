@@ -131,6 +131,8 @@ class Category(TimeStampedModel):
     banner_image = models.ImageField(blank=True, null=True)
     template = GeneralCharField(choices=TEMPLATE_CHOICES, default='post')
     display_order=models.PositiveSmallIntegerField(default=0)
+    content = models.TextField(blank=True, null=True)
+    is_static = models.BooleanField(default=False)
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')

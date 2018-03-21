@@ -43,7 +43,7 @@ class GeneralWithTagAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'template', 'parent', 'created_at', 'status')
     search_fields = ['name']
-
+    form = CategoryForm
 admin.site.register(Category, CategoryAdmin)
 
 

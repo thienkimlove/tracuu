@@ -189,19 +189,6 @@ CONSTANCE_CONFIG = {
     'INDEX_KEYWORDS': ('Trang chủ | Tra cứu dược liệu', _('Index Keywords'), str),
 
 
-    'EXPERT_TITLE': ('Chuyên gia | Tra cứu dược liệu', _('Expert title'), str),
-    'EXPERT_DESC': ('Chuyên gia | Tra cứu dược liệu', _('Expert Description'), str),
-    'EXPERT_KEYWORDS': ('Chuyên gia | Tra cứu dược liệu', _('Expert keywords'), str),
-    'EXPERT_CONTENT': ('', _('Expert Content'), 'ck_editor'),
-    'EXPERT_IMAGE': ('default.png', _('Expert page image'), 'image_field'),
-
-    'RECOMMEND_TITLE': ('Giới thiệu | Tra cứu dược liệu', _('Recommend title'), str),
-    'RECOMMEND_DESC': ('Giới thiệu | Tra cứu dược liệu', _('Recommend Description'), str),
-    'RECOMMEND_KEYWORDS': ('Giới thiệu | Tra cứu dược liệu', _('Recommend keywords'), str),
-    'RECOMMEND_CONTENT': ('', _('Recommend Content'), 'ck_editor'),
-    'RECOMMEND_IMAGE': ('default.png', _('Recommend page image'), 'image_field'),
-
-
 
     'FOOTER_TEXT': ('', _('Footer Text'), str),
     'HEADER_HOTLINE': ('', _('Header Hotline'), str),
@@ -216,8 +203,6 @@ CONSTANCE_CONFIG = {
 
 CONSTANCE_CONFIG_FIELDSETS = {
     'General Options': ('LOGO_IMAGE', 'INDEX_TITLE', 'INDEX_DESC', 'INDEX_KEYWORDS',),
-    'RECOMMEND Options': ('RECOMMEND_CONTENT', 'RECOMMEND_TITLE', 'RECOMMEND_DESC', 'RECOMMEND_KEYWORDS', 'RECOMMEND_IMAGE'),
-    'EXPERT Options': ('EXPERT_CONTENT', 'EXPERT_TITLE', 'EXPERT_DESC', 'EXPERT_KEYWORDS', 'EXPERT_IMAGE'),
     'Header and Footer': ('FOOTER_TEXT', 'HEADER_HOTLINE', 'HEADER_EMAIL', 'FACEBOOK_BLOCK_FOOTER'),
     'Social': ('FB_ID', 'SITE_NAME', 'GOOGLE'),
     #'Theme Options': ('THEME',),
@@ -316,4 +301,6 @@ LABELS =  {
     'status': 'Trạng thái',
     'vi_name': 'Tên Tiếng Việt',
     'template': 'Chọn layout cho chuyên mục',
+    'display_order': 'Thứ tự hiện thị Header và Footer',
+    'is_static': 'Dùng cho trang tĩnh',
 }

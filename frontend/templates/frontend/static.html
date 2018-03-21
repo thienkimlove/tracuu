@@ -1,0 +1,87 @@
+{% extends 'frontend/base.html' %}
+{% load staticfiles i18n core_helper thumbnail %}
+{% block title %}
+    {{ block.super }}
+    {{ category.name|upper }}
+{% endblock %}
+
+{% block meta %}
+    {{ block.super }}
+    <meta property="og:title" content="{{ category.name }}">
+    <meta name="twitter:title" content="{{ category.name }}">
+    <meta itemprop="name" content="{{ category.name }}">
+    <meta name="ABSTRACT" content="{{ category.name }}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-sub wrapper-sub4">
+        <header class="header-sub">
+            {% include 'frontend/common/header.html' %}
+            <div class="banner-header">
+                {% include 'frontend/common/search_form.html' %}
+            </div>
+        </header>
+        <div class="body">
+            <div class="block6">
+                <div class="leftContent">
+                    <div class="search-medicine">
+                        <div class="left">
+                            <img src="{% static "frontend/images/avatar-search2.jpg" %}" alt="">
+                        </div>
+                        <div class="right">
+                            <div class="txt">{{ category.name }}</div>
+                        </div>
+                    </div>
+                    <div class="advicesPro">
+                        {{ category.content|safe|escape }}
+                    </div>
+                </div>
+                <div class="rightContent">
+                    <div class="professions">
+                        <h3 class="globalTitle">Góc chuyên gia</h3>
+                        <div class="content">
+                            {% for expert in experts %}
+                                <div class="item item{{ forloop.counter }}">
+                                    <div class="left">
+                                        {% thumbnail expert.image "67x76" crop="center" as im %}
+                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
+                                        {% endthumbnail %}
+
+                                    </div>
+                                    <div class="right">
+                                        <a href="{{ expert.link }}" class="name" title="{{ expert.name }}">{{ expert.name }}</a>
+                                        <a href="{{ expert.link }}" class="view-more" title="Xem thêm">Xem thêm</a>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                    <div class="videos">
+                        <h3 class="globalTitle">Góc video</h3>
+                        <div class="content">
+                            {%  for video in videos %}
+                                <div class="item">
+                                    <div class="left">
+                                        <a href="{{ video.link }}" title="{{ video.name }}">
+                                            <img src="{{video.link|youtube:'s'}}">
+                                        </a>
+                                    </div>
+                                    <div class="right">
+                                        <a href="{{ video.link }}" title="{{ video.name }}" target="_blank" class="title">
+                                            {{ video.name }}
+                                        </a>
+                                        <span class="chanel">{{ video.channel }}</span>
+                                        <span class="turns">{{ video.turns }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'frontend/common/footer.html' %}
+    </div>
+{% endblock %}

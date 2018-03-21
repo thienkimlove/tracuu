@@ -51,4 +51,11 @@ def category_view(request, slug):
         path += "%s" % "&".join(["%s=%s" % (key, value) for (key, value) in request.GET.items() if not key=='page' ])
         alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
-        return render(request, 'frontend/'+category.template+'_list.html', { 'category' : category, 'posts' : posts, 'path' : path, 'alphabets' : alphabets})
+        experts = Expert.objects.filter(status=True)[0:3]
+        videos = Video.objects.filter(status=True)[0:3]
+
+        if category.is_static:
+            template = 'frontend/static.html'
+        else:
+            template = 'frontend/'+category.template+'_list.html'
+        return render(request, template, { 'category' : category, 'posts' : posts, 'path' : path, 'alphabets' : alphabets, 'experts' : experts, 'videos' : videos})

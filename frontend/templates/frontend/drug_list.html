@@ -33,7 +33,7 @@
                         </form>
                         <div class="txt-alphabet">
                             {% for alphabet in alphabets %}
-                                <a href="{% url 'frontend:drug_list' %}?q={{ alphabet| lower }}" title="{{ alphabet| lower }}" class="{% if request.GET.q == alphabet|lower %}active{% endif %}">{{ alphabet }}</a>
+                                <a href="{% url 'frontend:category' category.slug %}?q={{ alphabet| lower }}" title="{{ alphabet| lower }}" class="{% if request.GET.q == alphabet|lower %}active{% endif %}">{{ alphabet }}</a>
                             {% endfor %}
 
                         </div>

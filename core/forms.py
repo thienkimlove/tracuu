@@ -20,3 +20,12 @@ class PostForm(autocomplete.FutureModelForm):
             'tags': autocomplete.TaggitSelect2(url='core:tag_autocomplete'),
         }
         labels = settings.LABELS
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = '__all__'
+        widgets = {
+            'content': CKEditorUploadingWidget(),
+        }
+        labels = settings.LABELS

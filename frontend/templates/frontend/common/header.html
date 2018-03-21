@@ -8,15 +8,15 @@
         <li>
             <a href="{% url 'frontend:index' %}"  title="Trang chủ">Trang chủ</a>
         </li>
-        <li>
-            <a href="{% url 'frontend:recommend' %}"  title="Giới thiệu">Giới thiệu</a>
-        </li>
 
         {% header_categories as header_categories %}
         {% for header_cate in header_categories %}
             <li>
-                <a href="javascript:void(0)" title="{{ header_cate.name }}">{{ header_cate.name }}</a>
-
+                {% if header_cate.children.count == 0 %}
+                    <a href="{% url 'frontend:category' header_cate.slug %}" title="{{ header_cate.name }}">{{ header_cate.name }}</a>
+                {% else %}
+                    <a href="javascript:void(0)" title="{{ header_cate.name }}">{{ header_cate.name }}</a>
+                {% endif %}
                 <ul class="subMenu">
                     {% for child_cate in header_cate.children.all %}
                         <li>
@@ -26,8 +26,5 @@
                 </ul>
             </li>
         {% endfor %}
-        <li>
-            <a href="{%  url 'frontend:expert' %}" title="Chuyên gia dược liệu">Chuyên gia dược liệu</a>
-        </li>
     </ul>
 </nav>

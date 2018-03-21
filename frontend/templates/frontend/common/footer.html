@@ -3,14 +3,22 @@
     <div class="left">
         <div class="textLeft">
             <a href="{% url 'frontend:index' %}" title="Trang chủ">Trang chủ</a>
-            <a href="{% url 'frontend:recommend' %}" title="Giới thiệu">Giới thiệu</a>
+
+            {% header_categories as low_categories %}
+
+            {% for low_category in low_categories %}
+                {% if low_category.is_static %}
+                    <a href="{% url 'frontend:category' low_category.slug %}" title="{{ low_category.name }}">{{ low_category.name }}</a>
+                {% endif %}
+            {% endfor %}
+
+
             {% footer_categories as footer_categories %}
             {% for footer_cate in footer_categories %}
                 {% if footer_cate.template == 'post' %}
                     <a href="{% url 'frontend:category' footer_cate.slug %}" title="{{ footer_cate.name }}">{{ footer_cate.name }}</a>
                 {% endif %}
             {% endfor %}
-            <a href="{% url 'frontend:expert' %}" title="Chuyên gia dược liệu">Chuyên gia dược liệu</a>
         </div>
         <div class="textRight">
             {% footer_categories as footer_categories %}
