@@ -1,5 +1,5 @@
 {% extends 'frontend/base.html' %}
-{% load staticfiles i18n  thumbnail %}
+{% load staticfiles i18n  thumbnail core_helper %}
 
 {% block title %}
     {{ block.super }}
@@ -41,10 +41,10 @@
                                 <a href="{% url 'frontend:content_detail' post.slug %}" class="title" title="{{ post.name }}">{{ post.name }}</a>
                                 {% if post.category.template is not 'post' %}
                                     <div class="info">
-                                        <span>Tên tiếng việt: {{ post.name }}</span>
-                                        <span>Tên khoa học: {{ post.s_name }}</span>
-                                        <span>Họ: {{ post.last_name }}</span>
-                                        <span>Công dụng: {{ post.other_name }}</span>
+                                        <span>Tên tiếng việt: {{ post.name|display_not_none }}</span>
+                                        <span>Tên khoa học: {{ post.s_name|display_not_none }}</span>
+                                        <span>Họ: {{ post.last_name|display_not_none }}</span>
+                                        <span>Công dụng: {{ post.other_name|display_not_none }}</span>
                                     </div>
                                 {% endif %}
                             </div>

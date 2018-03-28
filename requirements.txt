@@ -14,10 +14,11 @@ django-etc==0.10.0
 django-import-export==1.0.0
 django-js-asset==1.0.0
 django-jsoneditor==0.0.12
+django-logentry-admin==1.0.3
 django-picklefield==1.0.0
 django-select2==6.0.2
 django-siteprefs==0.7.0
-django-taggit==0.22.2
+-e git://github.com/thienkimlove/django-taggit.git@97e731f5cbb867c333f11200a8096027a4f78b1c#egg=django_taggit
 docutils==0.14
 et-xmlfile==1.0.1
 fake-factory==9999.9.9
@@ -43,5 +44,6 @@ sqlparse==0.2.4
 tablib==0.12.1
 unicodecsv==0.14.1
 urllib3==1.22
+uWSGI==2.0.17
 xlrd==1.1.0
 xlwt==1.3.0

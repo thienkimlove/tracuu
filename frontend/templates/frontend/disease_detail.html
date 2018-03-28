@@ -49,7 +49,7 @@
                     <div class="relateMedicines">
                         <h3 class="globalTitle">Những dược liệu hỗ trợ chữa {{ content.name }}</h3>
                         <div class="content">
-                            {% for post in  content.child_disease.all %}
+                            {% for post in  content.disease.all %}
                                 <a href="{% url 'frontend:content_detail' post.slug %}" class="item item{{ forloop.counter }}" title="{{ post.name }}" style="background: url('{{ post.image.url }}') center center no-repeat;">
 
                                     {% thumbnail post.image "231x200" crop="center" as im %}

@@ -1,0 +1,124 @@
+{% extends 'frontend/base.html' %}
+{% load staticfiles i18n thumbnail %}
+
+{% block title %}
+    {{ block.super }}
+    Tra cứu | Bản tin dược liệu
+{% endblock %}
+
+{% block meta %}
+    {{ block.super }}
+    <meta property="og:title" content="Tra cứu | {{ category.name }}">
+    <meta name="twitter:title" content="Tra cứu | {{ category.name }}">
+    <meta itemprop="name" content="Tra cứu | {{ category.name }}">
+    <meta name="ABSTRACT" content="Tra cứu | {{ category.name }}"/>
+{% endblock %}
+
+
+{% block content %}
+    <div class="wrapper wrapper-sub wrapper-sub2">
+        <header class="header-sub">
+            {% include 'frontend/common/header.html' %}
+            <div class="banner-header">
+                {% include 'frontend/common/search_form.html' %}
+                <div class="search-medicine">
+                    <div class="left">
+                        <img src="{% static "frontend/images/avatar-search5.jpg" %}" alt="">
+                    </div>
+                    <div class="right">
+                        <div class="txt">{{ category.name }}</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="body">
+            <div class="block4">
+                <div class="leftBlock">
+                    {% for post in posts|slice:"0:1" %}
+                    <a href="{% url 'frontend:content_detail' post.slug %}" class="item" title="{{ post.name }}" style="background: url('{{ post.image.url }}') center center no-repeat;">
+
+                        {% thumbnail post.image "500x336" crop="center" as im %}
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
+                        {% endthumbnail %}
+
+                        <span>
+                        {{ post.name }}
+                    </span>
+                    </a>
+                    {% endfor %}
+                </div>
+                <div class="rightBlock">
+                    {% for post in posts|slice:"1:3" %}
+                    <a href="{% url 'frontend:content_detail' post.slug %}" class="item" title="{{ post.name }}">
+                        {% thumbnail post.image "233x157" crop="center" as im %}
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
+                        {% endthumbnail %}
+                        <span>
+                        {{ post.name }}
+                        <i class="summary">{{ post.desc }}</i>
+                        <i class="view-more">Xem thêm</i>
+                    </span>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="block5">
+                <div class="leftBlock">
+                    {% for post in posts|slice:"3:" %}
+                        <a href="{% url 'frontend:content_detail' post.slug %}" class="item"
+                           title="{{ post.name }}">
+                            {% thumbnail post.image "332x223" crop="center" as im %}
+                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
+                            {% endthumbnail %}
+                            <span>
+                        {{ post.name }}
+                        <i class="summary">{{ post.desc }}</i>
+                        <i class="view-more">Xem thêm</i>
+                    </span>
+                        </a>
+                    {% endfor %}
+                </div>
+                <div class="rightBlock">
+                    <a href="javascript:void(0)" title="Dược liệu Tuệ Linh - Dược liệu sạch cho mọi nhà">
+
+                        {% if category.banner_image %}
+                            <img src="{{ category.banner_image.url }}" alt="" class="imgFull">
+                        {% endif %}
+
+                    </a>
+                </div>
+                {% if posts.has_other_pages %}
+                    <ul class="pagination">
+                        <li><a href="?page=1">Đầu</a></li>
+                        {% if posts.has_previous %}
+                            <li><a href="?page={{ posts.previous_page_number }}">&laquo;</a></li>
+                        {% endif %}
+
+                        {% for i in posts.paginator.page_range %}
+                            {% if posts.number == i %}
+                                <li>
+                                    <a class="current" href="javascript:void(0)">{{ i }}</a>
+                                </li>
+
+                            {% else %}
+                                {% if posts.number|add:"5" > i and posts.number|add:"-5" < i %}
+                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+
+                            {% endif %}
+                        {% endfor %}
+                        {% if posts.has_next %}
+                            <li><a href="?page={{ posts.next_page_number }}">&raquo;</a></li>
+                        {% endif %}
+
+                        {% if posts.paginator.num_pages > 0 and posts.number != posts.paginator.num_pages %}
+
+                            <li><a href="?page={{ posts.paginator.num_pages }}">Cuối</a></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        {% include 'frontend/common/footer.html' %}
+    </div>
+{% endblock %}

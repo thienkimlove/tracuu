@@ -7,7 +7,6 @@ from project import settings
 
 
 class PostForm(autocomplete.FutureModelForm):
-    disease = forms.ModelChoiceField(Post.objects.filter(category__slug__exact='tra-cuu-theo-benh'))
     class Meta:
         model = Post
         fields = '__all__'
@@ -18,6 +17,7 @@ class PostForm(autocomplete.FutureModelForm):
             'chidinh': CKEditorUploadingWidget(),
             'lieudung': CKEditorUploadingWidget(),
             'tags': autocomplete.TaggitSelect2(url='core:tag_autocomplete'),
+            'disease': autocomplete.ModelSelect2Multiple(url='core:disease_autocomplete'),
         }
         labels = settings.LABELS
 

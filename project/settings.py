@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '@v)bungn*8si*@g!th-y9ft-5jr*v0#9rrkt5@8%nyx(wqtkp='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['*']
@@ -304,3 +304,5 @@ LABELS =  {
     'display_order': 'Thứ tự hiện thị Header và Footer',
     'is_static': 'Dùng cho trang tĩnh',
 }
+
+TAGGIT_CASE_INSENSITIVE = True

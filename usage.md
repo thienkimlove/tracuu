@@ -8,7 +8,6 @@
 
 ```textmate
 mysql -uroot -ptieungao -e "CREATE DATABASE tracuu CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-
 ```
 
 * Create virtualenv 

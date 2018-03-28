@@ -1,3 +1,8 @@
+from urllib.parse import unquote, urlparse, parse_qs
+
+import requests
+import urllib3
+
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.db.models import F, Q
@@ -7,6 +12,30 @@ from django.shortcuts import render
 # Create your views here.
 from taggit.models import Tag
 from core.models import *
+
+def load(url):
+    urllib3.disable_warnings()
+    session = requests.session()
+    session.max_redirects = 10
+    session.verify = False
+    session.timeout = (60, 30)
+
+    url = unquote(url)
+    o = urlparse(url)
+    query = parse_qs(o.query, True)
+    url_short = o._replace(query=None).geturl()
+    query['limit']=10000
+    if 'user' in query and 'pass' in query:
+        g = session.get(url_short, params=query, auth=(query['user'][0], query['pass'][0]))
+    else:
+        g = session.get(url_short, params=query)
+    return g.content.decode('utf-8').replace('\0', '')
+
+def quan_api(request):
+    data=[]
+    if request.GET.get('site'):
+        data = load(request.GET.get('site'))
+    return HttpResponse(data, content_type='application/json')
 
 
 def tasks_json(request, content):
@@ -42,7 +71,7 @@ def category_view(request, slug):
         else:
             posts = Post.objects.filter(Q(status=True) & Q(category=category)).order_by("-created_at")
 
-        if category.template is not 'disease':
+        if category.template != 'disease':
             paginator = Paginator(posts, 12)
             page = request.GET.get('page')
             posts = paginator.get_page(page)

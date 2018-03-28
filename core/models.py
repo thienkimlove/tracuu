@@ -172,7 +172,7 @@ class Post(TimeStampedModel):
 
     views = models.IntegerField(default=0, editable=False)
     tags = TaggableManager()
-    disease = models.ManyToManyField("self", related_name='child_disease')
+    disease = models.ManyToManyField("self", related_name='child_disease',blank=True)
 
     class Meta:
         verbose_name = _('Bài viết')
