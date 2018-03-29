@@ -7,7 +7,7 @@ from django.core import serializers
 from django.core.paginator import Paginator
 from django.db.models import F, Q
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from taggit.models import Tag
@@ -58,6 +58,8 @@ def detail_view(request, slug):
         related_objects = content.tags.similar_objects()[0:2]
         latest_objects = Post.objects.filter(status=True).filter(category=content.category).filter(~Q(id = content.id)).order_by("-created_at")[0:3]
         return render(request, 'frontend/'+content.category.template+'_detail.html', { 'content' : content, 'related_objects' : related_objects, 'latest_objects' : latest_objects })
+    else:
+        return redirect('frontend:index')
 
 
 def category_view(request, slug):
@@ -83,8 +85,10 @@ def category_view(request, slug):
         experts = Expert.objects.filter(status=True)[0:3]
         videos = Video.objects.filter(status=True)[0:3]
 
-        if category.is_static:
+        if category.is_static or not category.template:
             template = 'frontend/static.html'
         else:
             template = 'frontend/'+category.template+'_list.html'
         return render(request, template, { 'category' : category, 'posts' : posts, 'path' : path, 'alphabets' : alphabets, 'experts' : experts, 'videos' : videos})
+    else:
+        return redirect('frontend:index')
