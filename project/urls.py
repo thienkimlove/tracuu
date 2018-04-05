@@ -21,6 +21,10 @@ from filebrowser.sites import site
 
 from project import settings
 
+admin.site.site_header = 'Tra cứu dược liệu'
+admin.site.index_title = 'Tra cứu'
+admin.site.site_title = 'Trang quản trị cho Web Tra cứu Dược liệu'
+
 urlpatterns = [
     url(r'^select2/', include('django_select2.urls')),
     url(r'^admin/filebrowser/', site.urls),

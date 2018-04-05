@@ -93,7 +93,7 @@
                 <h3 class="globalTitle">Được tìm kiếm nhiều</h3>
                 <div class="content">
                     {% for medicine in most_search %}
-                        <a href="{% url 'frontend:content_detail' medicine.slug %}" class="item item1" title="{{ medicine.name }}" style="background: url('/files/{{  medicine.image }}') center center no-repeat;">
+                        <a href="{% url 'frontend:search' %}?search_value={{ medicine.name }}" class="item item1" title="{{ medicine.name }}" style="background: url('/files/{{  medicine.image }}') center center no-repeat;">
                             {% thumbnail medicine.image "583x392" crop="center" as im %}
                                 <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="imgFull">
                             {% endthumbnail %}

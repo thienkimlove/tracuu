@@ -2,15 +2,19 @@ certifi==2018.1.18
 chardet==3.0.4
 diff-match-patch==20121119
 Django==2.0.2
+django-admin-interface==0.6.3
 django-appconf==1.0.1
 -e git+https://github.com/yourlabs/django-autocomplete-light.git@8e92292af23c2fa6de0d04e6c09eb374ea59588d#egg=django_autocomplete_light
 django-ckeditor==5.4.0
 django-classy-tags==0.6.2
+django-colorfield==0.1.14
 -e git://github.com/thienkimlove/django-constance.git@23d1737f1ef5d9e7266047ae4beb0482bb95d9b4#egg=django_constance
 django-debug-toolbar==1.9.1
 django-djconfig==0.6.0
 django-etc==0.10.0
 -e git://github.com/smacker/django-filebrowser-no-grappelli.git@60acccf93561019d5f9d65519b4a9ac3ed0f5298#egg=django_filebrowser_no_grappelli
+django-flat-responsive==2.0
+django-flat-theme==1.1.4
 django-import-export==1.0.0
 django-js-asset==1.0.0
 django-jsoneditor==0.0.12
@@ -18,7 +22,7 @@ django-logentry-admin==1.0.3
 django-picklefield==1.0.0
 django-select2==6.0.2
 django-siteprefs==0.7.0
--e git://github.com/thienkimlove/django-taggit.git@97e731f5cbb867c333f11200a8096027a4f78b1c#egg=django_taggit
+django-taggit==0.22.2
 docutils==0.14
 et-xmlfile==1.0.1
 fake-factory==9999.9.9
