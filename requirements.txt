@@ -9,7 +9,7 @@ django-ckeditor==5.4.0
 django-classy-tags==0.6.2
 django-colorfield==0.1.14
 -e git://github.com/thienkimlove/django-constance.git@23d1737f1ef5d9e7266047ae4beb0482bb95d9b4#egg=django_constance
-django-debug-toolbar==1.9.1
+django-debug-toolbar==1.11.1
 django-djconfig==0.6.0
 django-etc==0.10.0
 -e git://github.com/smacker/django-filebrowser-no-grappelli.git@60acccf93561019d5f9d65519b4a9ac3ed0f5298#egg=django_filebrowser_no_grappelli
